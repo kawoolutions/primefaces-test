@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <h:head>
+        <title>PrimeFaces Test</title>
+    </h:head>
+    <h:body>
+        
+        <h:form id="test-form">
+
+            <p:treeTable id="home-box-score-tree-table"
+                         binding="#{homeScoreManager.treeTable}"
+                         value="#{homeScoreManager.rootNode}"
+                         var="obj"
+                         nodeVar="node">
+                
+                <p:column id="name"
+                          headerText="Player">
+                    <h:outputText value="#{obj.playerName}"
+                                  rendered="#{node.type eq 'PlayerStat'}" />
+                    <h:outputText value="Q#{obj.period}"
+                                  rendered="#{node.type eq 'Stat'}" />
+                </p:column>
+                
+                <p:column id="jersey-nbr"
+                          headerText="Jersey #">
+                    <p:inputNumber id="jersey-nbr-input"
+                                   value="#{obj.jerseyNbr}"
+                                   required="true"
+                                   maxlength="2"
+                                   minValue="0"
+                                   maxValue="99"
+                                   decimalPlaces="0"
+                                   rendered="#{node.type eq 'PlayerStat'}" />
+                </p:column>
+                
+                <p:column id="three-pointers-made"
+                          headerText="3PM">
+                    <p:inputNumber id="three-pointers-made-input"
+                                   value="#{obj.tpm}"
+                                   required="true"
+                                   maxlength="2"
+                                   decimalPlaces="0"
+                                   rendered="#{node.type eq 'Stat'}" />
+                </p:column>
+                
+                <p:column id="free-throws-made"
+                          headerText="FTM">
+                    <p:inputNumber id="free-throws-made-input"
+                                   value="#{obj.ftm}"
+                                   required="true"
+                                   maxlength="2"
+                                   decimalPlaces="0"
+                                   rendered="#{node.type eq 'Stat'}" />
+                </p:column>
+                
+                <p:column id="three-pointers-attempted"
+                          headerText="FTA">
+                    <p:inputNumber id="free-throws-attempted-input"
+                                   value="#{obj.fta}"
+                                   required="true"
+                                   maxlength="2"
+                                   decimalPlaces="0"
+                                   rendered="#{node.type eq 'Stat'}" />
+                </p:column>
+        
+                <p:column id="points"
+                          headerText="PTS">
+                    <p:inputNumber id="points-input"
+                                   value="#{obj.pts}"
+                                   required="true"
+                                   maxlength="2"
+                                   decimalPlaces="0"
+                                   rendered="#{node.type eq 'Stat'}" />
+                </p:column>
+        
+            </p:treeTable>
+            
+            <h:inputHidden validator="#{homeScoreManager.validatePlayerStats}" />
+            <h:inputHidden validator="#{homeScoreManager.validateStats}" />
+                
+            <p:messages id="msgs" />
+            
+            <p:commandButton id="save-button"
+                             value="Save"
+                             action="#{homeScoreManager.save()}"
+                             process="@form"
+                             update="msgs"
+                             style="margin-top: 10px;" />
+        
+        </h:form>
+        
+    </h:body>
+</html>

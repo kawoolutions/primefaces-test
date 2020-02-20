@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <h:head>
+        <title>PrimeFaces Multisort Test</title>
+    </h:head>
+    <h:body>
+        
+        <div class="width: 1440px; margin-top: 50px;">
+            
+            <h1>PrimeFaces #{multiSortView.pfVersion}</h1>
+    
+            <h:form id="rs-standings-form">
+            
+                <p:dataTable id="table"
+                             value="#{multiSortView.dtos}"
+                             var="dto"
+                             rowKey="#{dto.name}"
+                             sortBy="#{multiSortView.getInitialSortMetas()}"
+                             sortMode="multiple">
+                    
+                    <p:column id="name"
+                              sortBy="#{dto.name}">
+                        #{dto.name}
+                    </p:column>
+                    
+                    <p:column id="games"
+                              sortBy="#{dto.games}">
+                        #{dto.games}
+                    </p:column>
+                    
+                    <p:column id="wins"
+                              sortBy="#{dto.wins}">
+                        #{dto.wins}
+                    </p:column>
+                    
+                    <p:column id="losses"
+                              sortBy="#{dto.losses}">
+                        #{dto.losses}
+                    </p:column>
+                    
+                    <p:column id="win-percentage"
+                              sortBy="#{dto.winp}">
+                        <h:outputText value="#{dto.winp}">
+                            <f:convertNumber minFractionDigits="3" maxFractionDigits="3" />
+                        </h:outputText>
+                    </p:column>
+                    
+                </p:dataTable>
+                
+            </h:form>
+        </div>
+        
+    </h:body>
+</html>
