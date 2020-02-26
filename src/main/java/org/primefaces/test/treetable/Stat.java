@@ -72,4 +72,10 @@ public class Stat implements Serializable
     {
         this.pts = pts;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Stat [period=" + period + ", tpm=" + tpm + ", ftm=" + ftm + ", fta=" + fta + ", pts=" + pts + "]";
+    }
 }

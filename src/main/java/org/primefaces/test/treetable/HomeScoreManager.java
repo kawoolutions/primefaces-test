@@ -37,9 +37,10 @@ public class HomeScoreManager implements Serializable
         
         playerStats = new ArrayList<>();
         
-        playerStats.add( new PlayerStat( "Jordan", 23 ) );
-        playerStats.add( new PlayerStat( "Nowitzki", 41 ) );
         playerStats.add( new PlayerStat( "Bird", 33 ) );
+        playerStats.add( new PlayerStat( "Jordan", 23 ) );
+        playerStats.add( new PlayerStat( "Duncan", 21 ) );
+        playerStats.add( new PlayerStat( "Nowitzki", 41 ) );
         playerStats.add( new PlayerStat( "Doncic", 77 ) );
     }
     
@@ -153,6 +154,8 @@ public class HomeScoreManager implements Serializable
             
             for ( Stat stat : playerStat.getStats() )
             {
+                System.out.println( "Player " + playerName + " stat line: " + stat );
+                
                 if ( !isPlausible( stat ) )
                 {
                     msgs.add( new FacesMessage( FacesMessage.SEVERITY_ERROR, "More FTM's than FTA's is not possible for " + playerName + " Q" + stat.getPeriod(), null ) );
@@ -193,6 +196,8 @@ public class HomeScoreManager implements Serializable
     
     public void save()
     {
+        System.out.println( "save()!" );
+        
         FacesContext.getCurrentInstance().addMessage( null, new FacesMessage( FacesMessage.SEVERITY_INFO, "Saved.", null ) );
     }
 }

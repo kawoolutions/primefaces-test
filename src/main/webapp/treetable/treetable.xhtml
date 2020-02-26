@@ -80,8 +80,8 @@
         
             </p:treeTable>
             
-            <h:inputHidden validator="#{homeScoreManager.validatePlayerStats}" />
-            <h:inputHidden validator="#{homeScoreManager.validateStats}" />
+            <h:inputHidden value="required"
+                           validator="#{homeScoreManager.validateStats}" />
                 
             <p:messages id="msgs" />
             

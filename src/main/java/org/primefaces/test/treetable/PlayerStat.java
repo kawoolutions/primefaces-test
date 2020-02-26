@@ -57,7 +57,8 @@ public class PlayerStat implements Serializable
         List<Stat> stats = new ArrayList<>();
         
         // generate 1, 2, 3, 4 -> 4 quarters
-        for ( Integer period : Arrays.asList( 1, 2, 3, 4 ) )
+        for ( Integer period : Arrays.asList( 1, 2 ) )
+//        for ( Integer period : Arrays.asList( 1, 2, 3, 4 ) )
         {
             stats.add( new Stat( period, 0, 0, 0, 0 ) );
         }
