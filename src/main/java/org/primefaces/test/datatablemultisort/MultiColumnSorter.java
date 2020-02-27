@@ -1,4 +1,4 @@
-package org.primefaces.test.multisort;
+package org.primefaces.test.datatablemultisort;
 
 import java.util.List;
 
