@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <h:head>
+        <title>PrimeFaces Selection Disabled Lost on Paging Test</title>
+    </h:head>
+    
+    <h:body class="width: 1440px; margin-left: auto; margin-right: auto; margin-top: 50px;">
+        
+        <div>
+            
+            <h1>PrimeFaces #{selectionDisabledLostManager.pfVersion}</h1>
+    
+            <h:form id="standings-form">
+            
+                <p:dataTable id="table"
+                             value="#{selectionDisabledLostManager.dtos}"
+                             var="dto"
+                             rowKey="#{dto.name}"
+                             selection="#{selectionDisabledLostManager.selectedDto}"
+                             selectionMode="single"
+                             disabledSelection="#{selectionDisabledLostManager.mode eq 'EDIT'}"
+                            isabledSelection="true"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             rows="5"
+                             rowStyleClass="#{dto eq selectionDisabledLostManager.selectedDto ? 'ui-state-highlight' : ''}"
+                             styleClass="">
+        
+                    <p:ajax event="rowSelect"
+                            listener="#{selectionDisabledLostManager.view()}"
+                            update="@form" />
+                           
+                    <!--p:ajax event="rowUnselect"
+                            listener="#{selectionDisabledLostManager.cancel()}"
+                            update="@form" /-->
+                    
+                    <p:column id="name"
+                              sortBy="#{dto.name}">
+                        #{dto.name}
+                    </p:column>
+                    
+                    <p:column id="games"
+                              sortBy="#{dto.games}">
+                        #{dto.games}
+                    </p:column>
+                    
+                    <p:column id="wins"
+                              sortBy="#{dto.wins}">
+                        #{dto.wins}
+                    </p:column>
+                    
+                    <p:column id="losses"
+                              sortBy="#{dto.losses}">
+                        #{dto.losses}
+                    </p:column>
+                    
+                    <p:column id="win-percentage"
+                              sortBy="#{dto.winp}">
+                        <h:outputText value="#{dto.winp}">
+                            <f:convertNumber minFractionDigits="3" maxFractionDigits="3" />
+                        </h:outputText>
+                    </p:column>
+                    
+                </p:dataTable>
+                
+                <p:commandButton value="Edit"
+                                 action="#{selectionDisabledLostManager.edit}"
+                                 update="@form"
+                                 disabled="#{empty selectionDisabledLostManager.selectedDto or selectionDisabledLostManager.isWriting()}" />
+                
+                SDTO: #{selectionDisabledLostManager.selectedDto.name}<br />
+                MODE: #{selectionDisabledLostManager.mode}<br />
+                
+                <p:commandButton value="Cancel"
+                                 action="#{selectionDisabledLostManager.view()}"
+                                 update="@form"
+                                 disabled="#{empty selectionDisabledLostManager.selectedDto or not selectionDisabledLostManager.isWriting()}" />
+            
+            </h:form>
+            
+        </div>
+        
+    </h:body>
+</html>
