@@ -1,4 +1,4 @@
-package org.primefaces.test.treetable;
+package org.primefaces.test.treetablevalidation;
 
 import java.io.Serializable;
 import java.util.ArrayList;
