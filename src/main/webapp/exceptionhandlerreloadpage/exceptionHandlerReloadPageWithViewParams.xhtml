@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <f:view encoding="UTF-8">
+    
+        <f:metadata>
+            <f:viewParam name="round" value="#{groupHandler.roundId}" />
+            <f:viewParam name="group" value="#{groupHandler.groupCode}" />
+            <f:viewAction action="#{groupHandler.loadEntity}" />
+        </f:metadata>
+        
+        <h:head>
+            <title>PrimeFaces Exception Handler Reload Test</title>
+        </h:head>
+        
+        <h:body>
+    
+            <ui:include src="exceptionHandlers.xhtml" />
+                
+            <!--p:link widgetVar="reloadPageButton"
+                    value="Reload page"
+                    outcome="#{view.viewId}?includeViewParams=true" />
+            <p /-->
+            
+            <h:form id="test-form">
+                
+                The selected group is: [#{groupHandler.roundId}, #{groupHandler.groupCode}]
+                
+                <p:commandButton action="#{groupHandler.throwViewExpiredException}"
+                                 ajax="true"
+                                 value="Throw ViewExpiredException!" />
+                                 
+                <p:commandButton action="#{groupHandler.throwNullPointerException}"
+                                 ajax="true"
+                                 value="Throw NullPointerException!" />
+                                 
+                <!-- IllegalStateException is not handled using p:ajaxExceptionHandler's, so the error page is shown-->
+                <p:commandButton action="#{groupHandler.throwWrappedIllegalStateException}"
+                                 ajax="true"
+                                 value="Throw IllegalStateException!" />
+                
+            </h:form>
+            
+            <h:form id="exception-handler-dialog-form">
+                
+                <p:dialog id="exception-handler-dialog"
+                          widgetVar="exceptionHandlerDialog"
+                          header="Session Expired"
+                          modal="true"
+                          resizable="false"
+                          closable="true"
+                          closeOnEscape="true"
+                          onShow="sleep(3999); PF('reloadPageButton').jq.click();"
+                          styleClass="text-center"
+                          style="width: 300px !important; height: 200px !important;">
+            
+                    <p:ajax event="close"
+                            process="@this"
+                            update="#{updateIds}"
+                            onstart="PF('reloadPageButton').jq.click();"
+                            immediate="true" />
+                    
+                    <!--Message: #{pfExceptionHandler.message}<br/-->
+                    <!--StackTrace: <h:outputText value="#{pfExceptionHandler.formattedStackTrace}" escape="false" /-->
+                    
+                    <h:outputText value="Your session has expired. Reason: #{pfExceptionHandler.type}" />
+                    
+                    <p>
+                        <p:button widgetVar="reloadPageButton"
+                                  value="Reload page"
+                                  outcome="#{view.viewId}?includeViewParams=true" />
+                    </p>
+                    <!--p>
+                        <p:link widgetVar="reloadPageLink"
+                                value="Reload page"
+                                outcome="#{view.viewId}?includeViewParams=true" />
+                    </p-->
+                    <!--br />
+                    <p>
+                        <h:button widgetVar="reloadPageButtonJsf"
+                                  value="Reload page"
+                                  outcome="#{view.viewId}?includeViewParams=true" />
+                    </p>
+                    <p>
+                        <h:link widgetVar="reloadPageLinkJsf"
+                                value="Reload page"
+                                outcome="#{view.viewId}?includeViewParams=true" />
+                    </p-->
+                    
+                </p:dialog>
+            </h:form>
+            
+        </h:body>
+        
+    </f:view>
+    
+</html>
