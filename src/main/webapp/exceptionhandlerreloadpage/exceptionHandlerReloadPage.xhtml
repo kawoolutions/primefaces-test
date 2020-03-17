@@ -7,20 +7,25 @@
 
     <f:view encoding="UTF-8">
     
-        <!--f:metadata>
+        <f:metadata>
             <f:viewParam name="round" value="#{groupHandler.roundId}" />
             <f:viewParam name="group" value="#{groupHandler.groupCode}" />
             <f:viewAction action="#{groupHandler.loadEntity}" />
-        </f:metadata-->
+        </f:metadata>
         
         <h:head>
             <title>PrimeFaces Exception Handler Reload Test</title>
+            <style>
+                #exception-handler-dialog-form\:exception-handler-dialog {
+                   z-index: 99999 !important;
+                }
+            </style>            
         </h:head>
         
         <h:body>
 
             <p:ajaxExceptionHandler type="javax.faces.application.ViewExpiredException"
-                                   pdate="exception-handler-dialog-form"
+                                    update="exception-handler-dialog-form"
                                     onexception="PF('exceptionHandlerDialog').show();" />
             
             <p:ajaxExceptionHandler type="java.lang.NullPointerException"
