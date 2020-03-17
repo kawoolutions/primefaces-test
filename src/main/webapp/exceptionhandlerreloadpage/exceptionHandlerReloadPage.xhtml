@@ -7,19 +7,29 @@
 
     <f:view encoding="UTF-8">
     
-        <f:metadata>
+        <!--f:metadata>
             <f:viewParam name="round" value="#{groupHandler.roundId}" />
             <f:viewParam name="group" value="#{groupHandler.groupCode}" />
             <f:viewAction action="#{groupHandler.loadEntity}" />
-        </f:metadata>
+        </f:metadata-->
         
         <h:head>
             <title>PrimeFaces Exception Handler Reload Test</title>
         </h:head>
         
         <h:body>
-    
-            <ui:include src="exceptionHandlers.xhtml" />
+
+            <p:ajaxExceptionHandler type="javax.faces.application.ViewExpiredException"
+                                   pdate="exception-handler-dialog-form"
+                                    onexception="PF('exceptionHandlerDialog').show();" />
+            
+            <p:ajaxExceptionHandler type="java.lang.NullPointerException"
+                                   pdate="exception-handler-dialog-form"
+                                    onexception="PF('exceptionHandlerDialog').show();" />
+            
+            <p:ajaxExceptionHandler type="java.lang.IllegalArgumentException"
+                                   pdate="exception-handler-dialog-form"
+                                    onexception="PF('exceptionHandlerDialog').show();" />
                 
             <!--p:link widgetVar="reloadPageButton"
                     value="Reload page"
@@ -28,23 +38,39 @@
             
             <h:form id="test-form">
                 
-                The selected group is: [#{groupHandler.roundId}, #{groupHandler.groupCode}]
+                <!--The selected group is: [#{groupHandler.roundId}, #{groupHandler.groupCode}]-->
                 
-                <p:commandButton action="#{groupHandler.throwViewExpiredException}"
-                                 ajax="true"
-                                 value="Throw ViewExpiredException!" />
+                <p:commandButton value="Throw ViewExpiredException on dialog show!"
+                                 action="#{exceptionHandlerView.throwViewExpiredException}"
+                                 oncomplete="PF('someDialog').show();" />
                                  
-                <p:commandButton action="#{groupHandler.throwNullPointerException}"
-                                 ajax="true"
-                                 value="Throw NullPointerException!" />
+                <!--p:commandButton value="Throw NullPointerException on dialog show!"
+                                 action="#{exceptionHandlerView.throwNullPointerException}" /-->
                                  
                 <!-- IllegalStateException is not handled using p:ajaxExceptionHandler's, so the error page is shown-->
-                <p:commandButton action="#{groupHandler.throwWrappedIllegalStateException}"
-                                 ajax="true"
-                                 value="Throw IllegalStateException!" />
+                <!--p:commandButton value="Throw IllegalStateException on dialog show!"
+                                 action="#{exceptionHandlerView.throwWrappedIllegalStateException}" /-->
                 
             </h:form>
-            
+
+            <h:form id="some-dialog-form">
+                
+                <p:dialog id="some-dialog"
+                          widgetVar="someDialog"
+                          header="Something to Do"
+                          modal="true"
+                          resizable="false"
+                          closable="true"
+                          closeOnEscape="true"
+                          styleClass="text-center"
+                          style="width: 300px !important; height: 200px !important;">
+                          
+                    SEARCH DIALOG...
+                
+                </p:dialog>
+                
+            </h:form>
+                                
             <h:form id="exception-handler-dialog-form">
                 
                 <p:dialog id="exception-handler-dialog"
@@ -54,9 +80,7 @@
                           resizable="false"
                           closable="true"
                           closeOnEscape="true"
-                          onShow="sleep(3999); PF('reloadPageButton').jq.click();"
-                          styleClass="text-center"
-                          style="width: 300px !important; height: 200px !important;">
+                          style="width: 300px !important; height: 200px !important; text-align: center;">
             
                     <p:ajax event="close"
                             process="@this"
@@ -92,6 +116,7 @@
                     </p-->
                     
                 </p:dialog>
+                
             </h:form>
             
         </h:body>
