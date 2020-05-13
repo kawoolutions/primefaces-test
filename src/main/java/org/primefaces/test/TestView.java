@@ -1,26 +1,32 @@
 package org.primefaces.test;
 
 import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 @Named
 @ViewScoped
-public class TestView implements Serializable {
+public class TestView implements Serializable
+{
+    private static final long serialVersionUID = 1L;
     
     private String testString;
     
-    @PostConstruct  
-    public void init() {
+    @PostConstruct
+    public void init()
+    {
         testString = "Welcome to PrimeFaces!!!";
     }
-
-    public String getTestString() {
+    
+    public String getTestString()
+    {
         return testString;
     }
-
-    public void setTestString(String testString) {
+    
+    public void setTestString( String testString )
+    {
         this.testString = testString;
-    }    
+    }
 }
