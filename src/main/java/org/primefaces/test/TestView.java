@@ -17,7 +17,7 @@ public class TestView implements Serializable
     @PostConstruct
     public void init()
     {
-        testString = "Welcome to PrimeFaces!!!";
+        testString = "Welcome to PrimeFaces!";
     }
     
     public String getTestString()
