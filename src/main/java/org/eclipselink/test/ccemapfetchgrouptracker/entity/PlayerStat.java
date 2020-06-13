@@ -1,7 +1,6 @@
 package org.eclipselink.test.ccemapfetchgrouptracker.entity;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -19,10 +18,6 @@ import javax.persistence.Table;
 public class PlayerStat implements Serializable
 {
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @Column(name = "player_id")
-    private Integer playerId;
 
     @Basic(optional = false)
     @Column(name = "jersey_nbr")
@@ -45,6 +40,11 @@ public class PlayerStat implements Serializable
     @JoinColumn(name = "game_id", referencedColumnName = "game_id")
     @JoinColumn(name = "is_home", referencedColumnName = "is_home")
     private Score score;
+
+    @Id
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "player_id")
+    private Player player;
 
     public PlayerStat()
     {
@@ -69,12 +69,12 @@ public class PlayerStat implements Serializable
 
     public PlayerStat(Integer gameId, Boolean home, Integer playerId, Integer jerseyNbr, Boolean starter, Integer pf)
     {
-        this.playerId = Objects.requireNonNull(playerId);
         this.jerseyNbr = jerseyNbr;
         this.starter = starter;
         this.pf = pf;
 
         this.score = new Score(gameId, home);
+        this.player = new Player(playerId);
     }
 
     public Integer getGameId()
@@ -99,12 +99,12 @@ public class PlayerStat implements Serializable
 
     public Integer getPlayerId()
     {
-        return playerId;
+        return player.getId();
     }
 
     public void setPlayerId(Integer playerId)
     {
-        this.playerId = playerId;
+        player.setId(playerId);
     }
 
     public Integer getJerseyNbr()
@@ -157,12 +157,22 @@ public class PlayerStat implements Serializable
         this.score = score;
     }
 
+    public Player getPlayer()
+    {
+        return player;
+    }
+
+    public void setPlayer(Player player)
+    {
+        this.player = player;
+    }
+
     @Override
     public int hashCode()
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ( (playerId == null) ? 0 : playerId.hashCode() );
+        result = prime * result + ( (player == null) ? 0 : player.hashCode() );
         result = prime * result + ( (score == null) ? 0 : score.hashCode() );
         return result;
     }
@@ -177,12 +187,12 @@ public class PlayerStat implements Serializable
         if ( getClass() != obj.getClass() )
             return false;
         PlayerStat other = ( PlayerStat ) obj;
-        if ( playerId == null )
+        if ( player == null )
         {
-            if ( other.playerId != null )
+            if ( other.player != null )
                 return false;
         }
-        else if ( !playerId.equals( other.playerId ) )
+        else if ( !player.equals( other.player ) )
             return false;
         if ( score == null )
         {
@@ -197,6 +207,6 @@ public class PlayerStat implements Serializable
     @Override
     public String toString()
     {
-        return "[" + playerId + ", " + jerseyNbr + ", " + hasPlayed + ", " + starter + ", " + pf + "]";
+        return "[" + jerseyNbr + ", " + hasPlayed + ", " + starter + ", " + pf + "]";
     }
 }

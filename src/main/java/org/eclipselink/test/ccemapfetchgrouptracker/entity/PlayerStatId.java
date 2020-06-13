@@ -7,7 +7,7 @@ public class PlayerStatId implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    private Integer playerId;
+    private Integer player;
 
     private ScoreId score;
 
@@ -22,7 +22,7 @@ public class PlayerStatId implements Serializable
 
     public PlayerStatId(Integer gameId, Boolean home, Integer playerId)
     {
-        this.playerId = Objects.requireNonNull(playerId);
+        this.player = Objects.requireNonNull(playerId);
 
         this.score = new ScoreId(gameId, home);
     }
@@ -49,12 +49,12 @@ public class PlayerStatId implements Serializable
 
     public Integer getPlayerId()
     {
-        return playerId;
+        return player;
     }
 
     public void setPlayerId(Integer playerId)
     {
-        this.playerId = playerId;
+        this.player = playerId;
     }
 
     public ScoreId getScoreId()
@@ -72,7 +72,7 @@ public class PlayerStatId implements Serializable
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ( (playerId == null) ? 0 : playerId.hashCode() );
+        result = prime * result + ( (player == null) ? 0 : player.hashCode() );
         result = prime * result + ( (score == null) ? 0 : score.hashCode() );
         return result;
     }
@@ -87,12 +87,12 @@ public class PlayerStatId implements Serializable
         if ( getClass() != obj.getClass() )
             return false;
         PlayerStatId other = ( PlayerStatId ) obj;
-        if ( playerId == null )
+        if ( player == null )
         {
-            if ( other.playerId != null )
+            if ( other.player != null )
                 return false;
         }
-        else if ( !playerId.equals( other.playerId ) )
+        else if ( !player.equals( other.player ) )
             return false;
         if ( score == null )
         {
@@ -107,6 +107,6 @@ public class PlayerStatId implements Serializable
     @Override
     public String toString()
     {
-        return "[" + playerId + ", " + score + "]";
+        return "[" + player + ", " + score + "]";
     }
 }
