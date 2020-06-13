@@ -87,6 +87,14 @@
             <artifactId>openwebbeans-el22</artifactId>
             <version>${owb.version}</version>
         </dependency>
+        
+        <!-- EclipseLink -->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+            <version>2.7.7</version>
+            <scope>provided</scope>
+        </dependency>        
     </dependencies>
 
     <repositories>

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <h:form id="game-table-form">
+        
+        <p:dataTable id="table"
+                     value="#{gameManager.entities}"
+                     var="ent"
+                     rowKey="#{ent.id}"
+                     rows="20">
+            
+            <p:column headerText="ID" width="20">
+                <h:outputText value="#{ent.id}" />
+            </p:column>
+            
+            <p:column headerText="Home Team" width="50">
+                <h:outputText value="#{ent.scores[true].roster.clubName}" />
+            </p:column>
+            
+            <p:column headerText="Away Team" width="50">
+                <h:outputText value="#{ent.scores[false].roster.clubName}" />
+            </p:column>
+            
+            <p:column headerText="Scheduled Tipoff" width="40">
+                <h:outputText value="#{ent.scheduledTipoff}" />
+            </p:column>
+            
+            <p:column headerText="Official #" width="20">
+                <h:outputText value="#{ent.officialNbr}" />
+            </p:column>
+            
+            <p:column headerText="Attendance" width="20">
+                <h:outputText value="#{ent.attendance}" />
+            </p:column>
+            
+            <p:column headerText="Recap" width="40">
+                <h:outputText value="#{ent.recap}" />
+            </p:column>
+            
+        </p:dataTable>
+        
+    </h:form>
+
+    <h:form id="game-input-form"
+            styleClass="responsive-form">
+        
+        <ui:include src="/WEB-INF/includes/addEditRemoveButtons.xhtml">
+            <ui:param name="idPrefix" value="game" />
+            <ui:param name="wvPrefix" value="game" />
+            
+            <ui:param name="gameManager" value="#{gameManager}" />
+            
+            <ui:param name="updateIds" value="@form :game-table-form" />
+            
+            <ui:param name="addable"   value="true" />
+            <ui:param name="editable"  value="true" />
+            <ui:param name="removable" value="true" />
+            
+            <ui:param name="addButtonHint"    value="#{text['entity.game.action.add.singular.hint']}" />
+            <ui:param name="editButtonHint"   value="#{text['entity.game.action.edit.singular.hint']}" />
+            <ui:param name="removeButtonHint" value="#{text['entity.game.action.remove.singular.hint']}" />
+            
+            <ui:param name="addButtonDisabled"    value="#{groupMemberManager.entities.size() lt 2 or gameManager.entities.size() ge groupMemberManager.entities.size() * ( groupMemberManager.entities.size() - 1 )}" />
+            <ui:param name="editButtonDisabled"   value="#{false}" />
+            <ui:param name="removeButtonDisabled" value="#{false}" />
+        </ui:include>
+        
+        <ui:fragment rendered="#{gameManager.isPanelShown()}">
+            
+            <ui:include src="/admin/groupmgmt/gameManagerInputs.xhtml" />
+            
+            <ui:fragment rendered="#{gameManager.isViewing() or gameManager.isEditing() or gameManager.isRemoving()}">
+                
+                <!--HOME PS[0]: #{not empty homeBoxScoreManager.rootNode.children ? homeBoxScoreManager.rootNode.children[0].data : 'NO PS'}<br />
+                AWAY PS[0]: #{not empty awayBoxScoreManager.rootNode.children ? awayBoxScoreManager.rootNode.children[0].data : 'NO PS'}<br /-->
+                
+                <!-- ACHTUNG: we must use these dummies or the buttons are out of sync when going into EDIT mode.
+                              this is because the tree table is rendered after the expand and collapse buttons and
+                              is not available at the time the buttons are rendered (wrong values) -->
+                <span class="display-none">#{homeBoxScoreManager.rootNode}</span>
+                <span class="display-none">#{awayBoxScoreManager.rootNode}</span>
+                
+                <h:panelGroup id="expand-collapse-button-panel"
+                              layout="block"
+                              styleClass="width-100 mt-10px mt-5px">
+                    
+                    <h:panelGroup id="home-expand-collapse-button-panel"
+                                  layout="block"
+                                  styleClass="width-50 float-left box-sizing-border-box">
+                        
+                        <p:commandButton icon="fa fa-angle-double-down"
+                                         title="#{text['common.action.expandAll.label']}"
+                                         action="#{homeBoxScoreManager.expandAllNodes()}"
+                                         process="@this"
+                                         update="@parent home-box-score-tree-table"
+                                         disabled="#{homeBoxScoreManager.allExpanded}"
+                                         onstart="PF('statusDialog').show();"
+                                         oncomplete="PF('statusDialog').hide();"
+                                         style="height: 16px;">
+                        </p:commandButton>
+                        <!--#{gameManager.allExpanded}-->
+                        
+                        <p:commandButton icon="fa fa-angle-double-up"
+                                         title="#{text['common.action.collapseAll.label']}"
+                                         action="#{homeBoxScoreManager.collapseAllNodes()}"
+                                         process="@this"
+                                         update="@parent home-box-score-tree-table"
+                                         disabled="#{homeBoxScoreManager.allCollapsed}"
+                                         onstart="PF('statusDialog').show();"
+                                         oncomplete="PF('statusDialog').hide();"
+                                         style="height: 16px;">
+                        </p:commandButton>
+                        <!--#{gameManager.allCollapsed}-->
+                        
+                    </h:panelGroup>
+                    
+                    <h:panelGroup id="away-expand-collapse-button-panel"
+                                  layout="block"
+                                  styleClass="width-50 float-left box-sizing-border-box pl-5px">
+                        
+                        <p:commandButton icon="fa fa-angle-double-down"
+                                         title="#{text['common.action.expandAll.label']}"
+                                         action="#{awayBoxScoreManager.expandAllNodes()}"
+                                         process="@this"
+                                         update="@parent away-box-score-tree-table"
+                                         disabled="#{awayBoxScoreManager.allExpanded}"
+                                         onstart="PF('statusDialog').show();"
+                                         oncomplete="PF('statusDialog').hide();"
+                                         style="height: 16px;">
+                        </p:commandButton>
+                        <!--#{gameManager.allExpanded}-->
+                        
+                        <p:commandButton icon="fa fa-angle-double-up"
+                                         title="#{text['common.action.collapseAll.label']}"
+                                         action="#{awayBoxScoreManager.collapseAllNodes()}"
+                                         process="@this"
+                                         update="@parent away-box-score-tree-table"
+                                         disabled="#{awayBoxScoreManager.allCollapsed}"
+                                         onstart="PF('statusDialog').show();"
+                                         oncomplete="PF('statusDialog').hide();"
+                                         style="height: 16px;">
+                        </p:commandButton>
+                        <!--#{gameManager.allCollapsed}-->
+                    
+                    </h:panelGroup>
+                    
+                </h:panelGroup>
+                
+                <ui:include src="boxScoreTreeTable.xhtml">
+                    <ui:param name="idPrefix" value="home" />
+                    <ui:param name="wvPrefix" value="home" />
+                    
+                    <ui:param name="gameManager" value="#{homeBoxScoreManager}" />
+                    
+                    <ui:param name="widthStyleClass" value="width-50 float-left box-sizing-border-box pr-5px" />
+                </ui:include>
+                
+                <ui:include src="boxScoreTreeTable.xhtml">
+                    <ui:param name="idPrefix" value="away" />
+                    <ui:param name="wvPrefix" value="away" />
+                    
+                    <ui:param name="gameManager" value="#{awayBoxScoreManager}" />
+                    
+                    <ui:param name="widthStyleClass" value="width-50 float-left box-sizing-border-box pl-5px" />
+                </ui:include>
+                
+                <div class="clear-both" />
+                
+                <div class="width-100 mt-10px">
+                
+                    <div class="width-50 float-left box-sizing-border-box">
+                    
+                        <p:commandButton id="home-team-member-search-button"
+                                         icon="fa fa-search"
+                                         value="#{text['common.action.add.singular.label']}..."
+                                         title="#{text['entity.teamMember.action.add.singular.label']}"
+                                         action="#{homeBoxScoreManager.add()}"
+                                         process="@this"
+                                         update="@form :home-team-member-search-dialog-form"
+                                         onstart="PF('statusDialog').show();"
+                                         oncomplete="PF('statusDialog').hide(); PF('homeTeamMemberSearchDialog').show();"
+                                         disabled="#{not gameManager.isWriting() or empty homeBoxScoreManager.score.roster.teamMembers or homeBoxScoreManager.score.playerStats.size() ge 12}"
+                                         styleClass="">
+                            <p:resetInput target=":home-team-member-search-dialog-form" />
+                        </p:commandButton>
+                        
+                        <h:panelGroup layout="block"
+                                      rendered="#{gameManager.isWriting() and (empty homeBoxScoreManager.score.roster.teamMembers or homeBoxScoreManager.score.playerStats.size() ge 12)}"
+                                      styleClass="notice-panel ui-message ui-message-error ui-widget ui-corner-all">
+                            <!--span class="ui-message-error-icon"></span-->
+                            <h:outputText value="#{text['entity.teamMember.list.noneAvailableMessage']}"
+                                          rendered="#{empty homeBoxScoreManager.score.roster.teamMembers}"
+                                          styleClass="ui-message-error-detail" />
+                            <h:outputText value="#{text['entity.playerStat.list.maximumReachedMessage']}"
+                                          rendered="#{homeBoxScoreManager.score.playerStats.size() ge 12}"
+                                          styleClass="ui-message-error-detail" />
+                        </h:panelGroup>
+                    
+                    </div>
+                                            
+                    <div class="width-50 float-left box-sizing-border-box">
+                        
+                        <p:commandButton id="away-team-member-search-button"
+                                         icon="fa fa-search"
+                                         value="#{text['common.action.add.singular.label']}..."
+                                         title="#{text['entity.teamMember.action.add.singular.label']}"
+                                         action="#{awayBoxScoreManager.add()}"
+                                         process="@this"
+                                         update="@form :away-team-member-search-dialog-form"
+                                         onstart="PF('statusDialog').show();"
+                                         oncomplete="PF('statusDialog').hide(); PF('awayTeamMemberSearchDialog').show();"
+                                         disabled="#{not gameManager.isWriting() or empty awayBoxScoreManager.score.roster.teamMembers or awayBoxScoreManager.score.playerStats.size() ge 12}"
+                                         styleClass="ml-5px">
+                            <p:resetInput target=":away-team-member-search-dialog-form" />
+                        </p:commandButton>
+                        
+                        <h:panelGroup layout="block"
+                                      rendered="#{gameManager.isWriting() and (empty awayBoxScoreManager.score.roster.teamMembers or awayBoxScoreManager.score.playerStats.size() ge 12)}"
+                                      styleClass="notice-panel ui-message ui-message-error ui-widget ui-corner-all">
+                            <!--span class="ui-message-error-icon"></span-->
+                            <h:outputText value="#{text['entity.teamMember.list.noneAvailableMessage']}"
+                                          rendered="#{empty awayBoxScoreManager.score.roster.teamMembers}"
+                                          styleClass="ui-message-error-detail" />
+                            <h:outputText value="#{text['entity.playerStat.list.maximumReachedMessage']}"
+                                          rendered="#{awayBoxScoreManager.score.playerStats.size() ge 12}"
+                                          styleClass="ui-message-error-detail" />
+                        </h:panelGroup>
+                    </div>
+                
+                </div>
+                
+                <div class="clear-both" />
+            
+            </ui:fragment>
+                
+            <p:messages id="msgs"
+                        redisplay="false" />
+                        
+            
+        </ui:fragment>
+        
+    </h:form>
+
+</ui:composition>
