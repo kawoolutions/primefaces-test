@@ -15,11 +15,6 @@ public class ScoreId implements Serializable
     {
     }
 
-    public ScoreId(ScoreId s)
-    {
-        this(s.getGameId(), s.getHome());
-    }
-
     public ScoreId(Integer gameId, Boolean home)
     {
         this.game = Objects.requireNonNull(gameId);

@@ -51,20 +51,24 @@ public class Roster implements Serializable
     {
     }
 
-    public Roster(Roster r)
+    public Roster(Integer id)
     {
-        this(r.getClubName(), r.getTeamTypeCode(), r.getTeamOrdinalNbr(), r.getSeasonStartYear(), r.getJerseyColorName());
-
-        this.id = Objects.requireNonNull(r.getId());
+        this(id, (Integer) null, null, null, null);
     }
 
-    public Roster(Integer clubName, String teamTypeCode, Integer teamOrdinalNbr, Integer seasonStartYear)
+    public Roster(Integer id, Integer clubName, String teamTypeCode, Integer teamOrdinalNbr, Integer seasonStartYear)
     {
-        this(clubName, teamTypeCode, teamOrdinalNbr, seasonStartYear, null);
+        this(id, clubName, teamTypeCode, teamOrdinalNbr, seasonStartYear, null);
     }
 
     public Roster(Integer clubName, String teamTypeCode, Integer teamOrdinalNbr, Integer seasonStartYear, String jerseyColorName)
     {
+        this(null, clubName, teamTypeCode, teamOrdinalNbr, seasonStartYear, jerseyColorName);
+    }
+
+    public Roster(Integer id, Integer clubName, String teamTypeCode, Integer teamOrdinalNbr, Integer seasonStartYear, String jerseyColorName)
+    {
+        this.id = Objects.requireNonNull(id);
         this.clubName = clubName;
         this.teamTypeCode = teamTypeCode;
         this.teamOrdinalNbr = teamOrdinalNbr;

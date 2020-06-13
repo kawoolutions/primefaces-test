@@ -50,26 +50,25 @@ public class PlayerStat implements Serializable
     {
     }
 
-    public PlayerStat(PlayerStat p)
-    {
-        this(p.getGameId(), p.getHome(), p.getPlayerId(), p.getJerseyNbr(), p.getStarter(), p.getPf());
-
-        this.hasPlayed = p.getHasPlayed();
-    }
-
     public PlayerStat(Integer gameId, Boolean home, Integer playerId)
     {
-        this(gameId, home, playerId, null, null);
+        this(gameId, home, playerId, null, Boolean.TRUE, null);
     }
 
-    public PlayerStat(Integer gameId, Boolean home, Integer playerId, Integer jerseyNbr, Integer pf)
+    public PlayerStat(Integer jerseyNbr, Boolean hasPlayed, Boolean starter, Integer pf)
     {
-        this(gameId, home, playerId, jerseyNbr, null, pf);
+        this(null, null, null, jerseyNbr, hasPlayed, starter, pf);
     }
 
-    public PlayerStat(Integer gameId, Boolean home, Integer playerId, Integer jerseyNbr, Boolean starter, Integer pf)
+    public PlayerStat(Integer gameId, Boolean home, Integer playerId, Integer jerseyNbr, Boolean hasPlayed, Integer pf)
+    {
+        this(gameId, home, playerId, jerseyNbr, hasPlayed, null, pf);
+    }
+
+    public PlayerStat(Integer gameId, Boolean home, Integer playerId, Integer jerseyNbr, Boolean hasPlayed, Boolean starter, Integer pf)
     {
         this.jerseyNbr = jerseyNbr;
+        this.hasPlayed = hasPlayed;
         this.starter = starter;
         this.pf = pf;
 

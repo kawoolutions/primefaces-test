@@ -15,11 +15,6 @@ public class PlayerStatId implements Serializable
     {
     }
 
-    public PlayerStatId(PlayerStatId p)
-    {
-        this(p.getGameId(), p.getHome(), p.getPlayerId());
-    }
-
     public PlayerStatId(Integer gameId, Boolean home, Integer playerId)
     {
         this.player = Objects.requireNonNull(playerId);

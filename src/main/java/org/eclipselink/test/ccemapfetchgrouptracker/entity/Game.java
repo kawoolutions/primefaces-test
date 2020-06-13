@@ -67,20 +67,24 @@ public class Game implements Serializable
     {
     }
 
-    public Game(Game g)
+    public Game(Integer id)
     {
-        this(g.getScheduledTipoff(), g.getOfficialNbr(), g.getAttendance(), g.getRecap());
-
-        this.id = Objects.requireNonNull(g.getId());
+        this(id, null);
     }
 
-    public Game(Date scheduledTipoff)
+    public Game(Integer id, Date scheduledTipoff)
     {
-        this(scheduledTipoff, null, null, null);
+        this(id, scheduledTipoff, null, null, null);
     }
 
     public Game(Date scheduledTipoff, String officialNbr, Integer attendance, String recap)
     {
+        this(null, scheduledTipoff, officialNbr, attendance, recap);
+    }
+
+    public Game(Integer id, Date scheduledTipoff, String officialNbr, Integer attendance, String recap)
+    {
+        this.id = Objects.requireNonNull(id);
         this.scheduledTipoff = scheduledTipoff;
         this.officialNbr = officialNbr;
         this.attendance = attendance;

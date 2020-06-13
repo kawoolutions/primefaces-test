@@ -32,11 +32,6 @@ public class Player implements Serializable
     {
     }
 
-    public Player(Player p)
-    {
-        this(p.getId(), p.getRegistrationNbr());
-    }
-
     public Player(Integer id)
     {
         this(id, null);
