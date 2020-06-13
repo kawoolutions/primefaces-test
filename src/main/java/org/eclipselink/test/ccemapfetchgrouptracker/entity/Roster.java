@@ -26,23 +26,15 @@ public class Roster implements Serializable
 
     @Basic(optional = false)
     @Column(name = "club_name")
-    private Integer clubName;
+    private String clubName;
 
     @Basic(optional = false)
-    @Column(name = "team_type_code")
-    private String teamTypeCode;
-
-    @Basic(optional = false)
-    @Column(name = "team_ordinal_nbr")
-    private Integer teamOrdinalNbr;
-
-    @Basic(optional = false)
-    @Column(name = "season_start_year")
-    private Integer seasonStartYear;
+    @Column(name = "ordinal_nbr")
+    private Integer ordinalNbr;
 
     @Basic
-    @Column(name = "jersey_color_name")
-    private String jerseyColorName;
+    @Column(name = "jersey_color")
+    private String jerseyColor;
 
     @OneToMany(mappedBy = "roster")
     private List<Score> scores;
@@ -53,27 +45,25 @@ public class Roster implements Serializable
 
     public Roster(Integer id)
     {
-        this(id, (Integer) null, null, null, null);
+        this(id, null, null);
     }
 
-    public Roster(Integer id, Integer clubName, String teamTypeCode, Integer teamOrdinalNbr, Integer seasonStartYear)
+    public Roster(Integer id, String clubName, Integer ordinalNbr)
     {
-        this(id, clubName, teamTypeCode, teamOrdinalNbr, seasonStartYear, null);
+        this(id, clubName, ordinalNbr, null);
     }
 
-    public Roster(Integer clubName, String teamTypeCode, Integer teamOrdinalNbr, Integer seasonStartYear, String jerseyColorName)
+    public Roster(String clubName, Integer ordinalNbr, String jerseyColor)
     {
-        this(null, clubName, teamTypeCode, teamOrdinalNbr, seasonStartYear, jerseyColorName);
+        this(null, clubName, ordinalNbr, jerseyColor);
     }
 
-    public Roster(Integer id, Integer clubName, String teamTypeCode, Integer teamOrdinalNbr, Integer seasonStartYear, String jerseyColorName)
+    public Roster(Integer id, String clubName, Integer ordinalNbr, String jerseyColor)
     {
         this.id = Objects.requireNonNull(id);
         this.clubName = clubName;
-        this.teamTypeCode = teamTypeCode;
-        this.teamOrdinalNbr = teamOrdinalNbr;
-        this.seasonStartYear = seasonStartYear;
-        this.jerseyColorName = jerseyColorName;
+        this.ordinalNbr = ordinalNbr;
+        this.jerseyColor = jerseyColor;
     }
 
     public Integer getId()
@@ -86,54 +76,34 @@ public class Roster implements Serializable
         this.id = id;
     }
 
-    public Integer getClubName()
+    public String getClubName()
     {
         return clubName;
     }
 
-    public void setClubName(Integer clubName)
+    public void setClubName(String clubName)
     {
         this.clubName = clubName;
     }
 
-    public String getTeamTypeCode()
+    public Integer getOrdinalNbr()
     {
-        return teamTypeCode;
+        return ordinalNbr;
     }
 
-    public void setTeamTypeCode(String teamTypeCode)
+    public void setOrdinalNbr(Integer ordinalNbr)
     {
-        this.teamTypeCode = teamTypeCode;
+        this.ordinalNbr = ordinalNbr;
     }
 
-    public Integer getTeamOrdinalNbr()
+    public String getJerseyColor()
     {
-        return teamOrdinalNbr;
+        return jerseyColor;
     }
 
-    public void setTeamOrdinalNbr(Integer teamOrdinalNbr)
+    public void setJerseyColor(String jerseyColor)
     {
-        this.teamOrdinalNbr = teamOrdinalNbr;
-    }
-
-    public Integer getSeasonStartYear()
-    {
-        return seasonStartYear;
-    }
-
-    public void setSeasonStartYear(Integer seasonStartYear)
-    {
-        this.seasonStartYear = seasonStartYear;
-    }
-
-    public String getJerseyColorName()
-    {
-        return jerseyColorName;
-    }
-
-    public void setJerseyColorName(String jerseyColorName)
-    {
-        this.jerseyColorName = jerseyColorName;
+        this.jerseyColor = jerseyColor;
     }
 
     public List<Score> getScores()
@@ -178,6 +148,6 @@ public class Roster implements Serializable
     @Override
     public String toString()
     {
-        return "[" + id + ", " + clubName + ", " + teamTypeCode + ", " + teamOrdinalNbr + ", " + seasonStartYear + ", " + jerseyColorName + "]";
+        return "[" + id + ", " + clubName + ", " + ordinalNbr + ", " + jerseyColor + "]";
     }
 }

@@ -31,10 +31,6 @@ public class PlayerStat implements Serializable
     @Column(name = "is_starter")
     private Boolean starter;
 
-    @Basic(optional = false)
-    @Column
-    private Integer pf;
-
     @Id
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "game_id", referencedColumnName = "game_id")
@@ -52,25 +48,24 @@ public class PlayerStat implements Serializable
 
     public PlayerStat(Integer gameId, Boolean home, Integer playerId)
     {
-        this(gameId, home, playerId, null, Boolean.TRUE, null);
+        this(gameId, home, playerId, null, Boolean.TRUE);
     }
 
-    public PlayerStat(Integer jerseyNbr, Boolean hasPlayed, Boolean starter, Integer pf)
+    public PlayerStat(Integer jerseyNbr, Boolean hasPlayed, Boolean starter)
     {
-        this(null, null, null, jerseyNbr, hasPlayed, starter, pf);
+        this(null, null, null, jerseyNbr, hasPlayed, starter);
     }
 
-    public PlayerStat(Integer gameId, Boolean home, Integer playerId, Integer jerseyNbr, Boolean hasPlayed, Integer pf)
+    public PlayerStat(Integer gameId, Boolean home, Integer playerId, Integer jerseyNbr, Boolean hasPlayed)
     {
-        this(gameId, home, playerId, jerseyNbr, hasPlayed, null, pf);
+        this(gameId, home, playerId, jerseyNbr, hasPlayed, null);
     }
 
-    public PlayerStat(Integer gameId, Boolean home, Integer playerId, Integer jerseyNbr, Boolean hasPlayed, Boolean starter, Integer pf)
+    public PlayerStat(Integer gameId, Boolean home, Integer playerId, Integer jerseyNbr, Boolean hasPlayed, Boolean starter)
     {
         this.jerseyNbr = jerseyNbr;
         this.hasPlayed = hasPlayed;
         this.starter = starter;
-        this.pf = pf;
 
         this.score = new Score(gameId, home);
         this.player = new Player(playerId);
@@ -136,16 +131,6 @@ public class PlayerStat implements Serializable
         this.starter = starter;
     }
 
-    public Integer getPf()
-    {
-        return pf;
-    }
-
-    public void setPf(Integer pf)
-    {
-        this.pf = pf;
-    }
-
     public Score getScore()
     {
         return score;
@@ -206,6 +191,6 @@ public class PlayerStat implements Serializable
     @Override
     public String toString()
     {
-        return "[" + jerseyNbr + ", " + hasPlayed + ", " + starter + ", " + pf + "]";
+        return "[" + jerseyNbr + ", " + hasPlayed + ", " + starter + "]";
     }
 }

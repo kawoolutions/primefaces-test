@@ -21,9 +21,9 @@ public class Player implements Serializable
     @Column
     private Integer id;
 
-    @Basic
-    @Column(name = "registration_nbr")
-    private String registrationNbr;
+    @Basic(optional = false)
+    @Column
+    private String name;
 
     @OneToMany(mappedBy = "player")
     private List<PlayerStat> playerStats;
@@ -37,15 +37,15 @@ public class Player implements Serializable
         this(id, null);
     }
 
-    public Player(String registrationNbr)
+    public Player(String name)
     {
-        this(null, registrationNbr);
+        this(null, name);
     }
 
-    public Player(Integer id, String registrationNbr)
+    public Player(Integer id, String name)
     {
         this.id = Objects.requireNonNull(id);
-        this.registrationNbr = registrationNbr;
+        this.name = name;
     }
 
     public Integer getId()
@@ -58,14 +58,14 @@ public class Player implements Serializable
         this.id = id;
     }
 
-    public String getRegistrationNbr()
+    public String getName()
     {
-        return registrationNbr;
+        return name;
     }
 
-    public void setRegistrationNbr(String registrationNbr)
+    public void setName(String name)
     {
-        this.registrationNbr = registrationNbr;
+        this.name = name;
     }
 
     public List<PlayerStat> getPlayerStats()
@@ -110,6 +110,6 @@ public class Player implements Serializable
     @Override
     public String toString()
     {
-        return "[" + id + ", " + registrationNbr + "]";
+        return "[" + id + ", " + name + "]";
     }
 }

@@ -1,7 +1,7 @@
 package org.eclipselink.test.ccemapfetchgrouptracker.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
 
@@ -18,8 +18,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "\"Games\"")
@@ -44,8 +42,7 @@ public class Game implements Serializable
 
     @Basic(optional = false)
     @Column(name = "scheduled_tipoff")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date scheduledTipoff;
+    private LocalDateTime scheduledTipoff;
 
     @Basic
     @Column(name = "official_nbr")
@@ -54,10 +51,6 @@ public class Game implements Serializable
     @Basic
     @Column
     private Integer attendance;
-
-    @Basic
-    @Column
-    private String recap;
 
     @OneToMany(mappedBy = "game")
     @MapKeyColumn(name = "is_home")
@@ -72,23 +65,22 @@ public class Game implements Serializable
         this(id, null);
     }
 
-    public Game(Integer id, Date scheduledTipoff)
+    public Game(Integer id, LocalDateTime scheduledTipoff)
     {
-        this(id, scheduledTipoff, null, null, null);
+        this(id, scheduledTipoff, null, null);
     }
 
-    public Game(Date scheduledTipoff, String officialNbr, Integer attendance, String recap)
+    public Game(LocalDateTime scheduledTipoff, String officialNbr, Integer attendance)
     {
-        this(null, scheduledTipoff, officialNbr, attendance, recap);
+        this(null, scheduledTipoff, officialNbr, attendance);
     }
 
-    public Game(Integer id, Date scheduledTipoff, String officialNbr, Integer attendance, String recap)
+    public Game(Integer id, LocalDateTime scheduledTipoff, String officialNbr, Integer attendance)
     {
         this.id = Objects.requireNonNull(id);
         this.scheduledTipoff = scheduledTipoff;
         this.officialNbr = officialNbr;
         this.attendance = attendance;
-        this.recap = recap;
     }
 
     public Integer getId()
@@ -101,12 +93,12 @@ public class Game implements Serializable
         this.id = id;
     }
 
-    public Date getScheduledTipoff()
+    public LocalDateTime getScheduledTipoff()
     {
         return scheduledTipoff;
     }
 
-    public void setScheduledTipoff(Date scheduledTipoff)
+    public void setScheduledTipoff(LocalDateTime scheduledTipoff)
     {
         this.scheduledTipoff = scheduledTipoff;
     }
@@ -129,16 +121,6 @@ public class Game implements Serializable
     public void setAttendance(Integer attendance)
     {
         this.attendance = attendance;
-    }
-
-    public String getRecap()
-    {
-        return recap;
-    }
-
-    public void setRecap(String recap)
-    {
-        this.recap = recap;
     }
 
     public Map<Boolean, Score> getScores()
@@ -183,6 +165,6 @@ public class Game implements Serializable
     @Override
     public String toString()
     {
-        return "[" + id + ", " + scheduledTipoff + ", " + officialNbr + ", " + attendance + ", " + recap + "]";
+        return "[" + id + ", " + scheduledTipoff + ", " + officialNbr + ", " + attendance + "]";
     }
 }
