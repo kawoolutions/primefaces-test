@@ -27,7 +27,7 @@ public class Score implements Serializable
     public static final String FETCH_PLAYER_STATS = "Score.fetchPlayerStats";
 
     @Id
-    @Column(name = "is_home", insertable = false, updatable = false)
+    @Column(name = "is_home")
     private Boolean home;
 
     @Basic

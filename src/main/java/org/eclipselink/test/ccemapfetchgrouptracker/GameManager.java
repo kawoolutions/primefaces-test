@@ -13,7 +13,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
 
 import org.eclipselink.test.ccemapfetchgrouptracker.entity.Game;
@@ -28,13 +30,27 @@ public class GameManager implements Serializable
     private static final long serialVersionUID = 1L;
     
     private List<Game> entities;
+
+    @PersistenceUnit( unitName = "TestPU" )
+    private EntityManagerFactory emf;
     
-    @PersistenceContext
+//    @PersistenceContext( name = "TestPU" )
     private EntityManager em;
     
     @PostConstruct
     public void init()
     {
+        System.out.println( "Entity manager factory: " + emf );
+        
+        if ( this.emf == null )
+        {
+            this.emf = Persistence.createEntityManagerFactory( "TestPU" );
+        }
+        
+        this.em = emf.createEntityManager();
+        
+        System.out.println( "Entity manager: " + em );
+        
         List<Player> players = new ArrayList<Player>();
         players.add( new Player( 1, "Bird" ) );
         players.add( new Player( 2, "Jordan" ) );
