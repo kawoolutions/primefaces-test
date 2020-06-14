@@ -53,7 +53,7 @@ public class Game implements Serializable
     private Integer attendance;
 
     @OneToMany(mappedBy = "game")
-    @MapKeyColumn(name = "is_home", insertable = false, updatable = false )
+    @MapKeyColumn(name = "is_home", insertable = false, updatable = false)
     private Map<Boolean, Score> scores;
 
     public Game()
