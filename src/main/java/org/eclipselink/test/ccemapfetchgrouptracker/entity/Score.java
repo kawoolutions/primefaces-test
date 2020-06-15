@@ -45,7 +45,7 @@ public class Score implements Serializable
 
     @OneToMany(mappedBy = "score")
     @MapKey(name = "jerseyNbr")
-    @OrderBy("starter DESC, jerseyNbr")
+    @OrderBy("jerseyNbr")
     private Map<Integer, PlayerStat> playerStats;
 
     public Score()
