@@ -16,7 +16,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
 
 import org.eclipselink.test.fetchgroupreportquery.entity.SimpleGame;
@@ -32,7 +31,7 @@ public class GameScoreManager implements Serializable
     
     private List<SimpleGame> entities;
 
-    @PersistenceUnit( unitName = "TestPU" )
+//    @PersistenceUnit( unitName = "TestPU" )
     private EntityManagerFactory emf;
     
 //    @PersistenceContext( name = "TestPU" )
@@ -111,7 +110,15 @@ public class GameScoreManager implements Serializable
     private SimpleGame newGame( SimpleRoster homeRoster, SimpleRoster awayRoster )
     {
         SimpleGame game = new SimpleGame( 1, LocalDateTime.now() );
-        wait( 500 );
+        
+        try
+        {
+            Thread.sleep( 500 );
+        }
+        catch ( InterruptedException e )
+        {
+            e.printStackTrace();
+        }
         
         SimpleScore homeScore = new SimpleScore( game.getId(), Boolean.TRUE, homeRoster.getId(), null );
         homeScore.setSimpleRoster( homeRoster );
@@ -130,18 +137,6 @@ public class GameScoreManager implements Serializable
         return game;
     }
     
-    private void wait( int msec )
-    {
-        try
-        {
-            Thread.sleep( msec );
-        }
-        catch ( InterruptedException e )
-        {
-            e.printStackTrace();
-        }
-    }
-
     public List<SimpleGame> getEntities()
     {
         if ( entities == null )
