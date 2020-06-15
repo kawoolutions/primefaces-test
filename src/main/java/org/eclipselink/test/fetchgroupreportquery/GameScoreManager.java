@@ -74,10 +74,10 @@ public class GameScoreManager implements Serializable
         
         rosters.forEach( r -> em.persist( r ) );
         
-        SimpleGame game01 = newGame( rosters.get( 0 ), rosters.get( 1 ) );
-        SimpleGame game02 = newGame( rosters.get( 2 ), rosters.get( 3 ) );
-        SimpleGame game03 = newGame( rosters.get( 4 ), rosters.get( 5 ) );
-        SimpleGame game04 = newGame( rosters.get( 6 ), rosters.get( 7 ) );
+        SimpleGame game01 = newGame( 1, rosters.get( 0 ), rosters.get( 1 ) );
+        SimpleGame game02 = newGame( 2, rosters.get( 2 ), rosters.get( 3 ) );
+        SimpleGame game03 = newGame( 3, rosters.get( 4 ), rosters.get( 5 ) );
+        SimpleGame game04 = newGame( 4, rosters.get( 6 ), rosters.get( 7 ) );
 
         List<SimpleGame> games = Arrays.asList( game01, game02, game03, game04 );
         
@@ -107,9 +107,9 @@ public class GameScoreManager implements Serializable
         this.et.commit();
     }
     
-    private SimpleGame newGame( SimpleRoster homeRoster, SimpleRoster awayRoster )
+    private SimpleGame newGame( Integer gameId, SimpleRoster homeRoster, SimpleRoster awayRoster )
     {
-        SimpleGame game = new SimpleGame( 1, LocalDateTime.now() );
+        SimpleGame game = new SimpleGame( gameId, LocalDateTime.now() );
         
         try
         {

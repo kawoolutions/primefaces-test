@@ -3,13 +3,10 @@ package org.eclipselink.test.fetchgroupreportquery.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.NamedAttributeNode;
@@ -32,7 +29,6 @@ public class SimpleGame implements Serializable
     public static final String FETCH_SCORES = "SimpleGame.fetchScores";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Integer id;
 
@@ -48,9 +44,19 @@ public class SimpleGame implements Serializable
     {
     }
 
+    public SimpleGame(Integer id)
+    {
+        this(id, null);
+    }
+
+    public SimpleGame(LocalDateTime scheduledTipoff)
+    {
+        this(null, scheduledTipoff);
+    }
+
     public SimpleGame(Integer id, LocalDateTime scheduledTipoff)
     {
-        this.id = Objects.requireNonNull(id);
+        this.id = id;
         this.scheduledTipoff = scheduledTipoff;
     }
 

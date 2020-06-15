@@ -1,7 +1,6 @@
 package org.eclipselink.test.fetchgroupreportquery.entity;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -41,16 +40,28 @@ public class SimpleScore implements Serializable
     {
     }
 
+    public SimpleScore(Integer finalScore)
+    {
+        this(null, null, null, finalScore);
+    }
+
+    public SimpleScore(Integer gameId, Boolean home)
+    {
+        this(gameId, home, null);
+    }
+
+    public SimpleScore(Integer gameId, Boolean home, Integer rosterId)
+    {
+        this(gameId, home, rosterId, null);
+    }
+
     public SimpleScore(Integer gameId, Boolean home, Integer rosterId, Integer finalScore)
     {
-        this.home = Objects.requireNonNull(home);
+        this.home = home;
         this.finalScore = finalScore;
 
-        this.simpleGame = new SimpleGame();
-        this.simpleGame.setId(gameId);
-
-        this.simpleRoster = new SimpleRoster();
-        this.simpleRoster.setId(rosterId);
+        this.simpleGame = new SimpleGame(gameId);
+        this.simpleRoster = new SimpleRoster(rosterId);
     }
 
     public Integer getGameId()

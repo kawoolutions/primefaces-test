@@ -35,6 +35,16 @@ public class Roster implements Serializable
     {
     }
 
+    public Roster(Integer id)
+    {
+        this(id, null, null);
+    }
+
+    public Roster(String clubName, Integer ordinalNbr)
+    {
+        this(null, clubName, ordinalNbr);
+    }
+
     public Roster(Integer id, String clubName, Integer ordinalNbr)
     {
         this.id = id;

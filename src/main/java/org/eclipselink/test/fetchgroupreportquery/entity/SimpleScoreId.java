@@ -1,7 +1,6 @@
 package org.eclipselink.test.fetchgroupreportquery.entity;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public class SimpleScoreId implements Serializable
 {
@@ -17,8 +16,8 @@ public class SimpleScoreId implements Serializable
 
     public SimpleScoreId(Integer gameId, Boolean home)
     {
-        this.simpleGame = Objects.requireNonNull(gameId);
-        this.home = Objects.requireNonNull(home);
+        this.simpleGame = gameId;
+        this.home = home;
     }
 
     public Integer getGameId()

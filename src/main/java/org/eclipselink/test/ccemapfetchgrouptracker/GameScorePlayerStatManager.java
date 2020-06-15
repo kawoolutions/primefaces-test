@@ -198,9 +198,9 @@ public class GameScorePlayerStatManager implements Serializable
         }
     }
     
-    private Game newGame( Integer id, Roster homeRoster, Roster awayRoster )
+    private Game newGame( Integer gameId, Roster homeRoster, Roster awayRoster )
     {
-        Game game = new Game( id, LocalDateTime.now() );
+        Game game = new Game( gameId, LocalDateTime.now() );
         wait( 500 );
         
         Score homeScore = new Score( game.getId(), Boolean.TRUE, homeRoster.getId(), null );
@@ -258,11 +258,11 @@ public class GameScorePlayerStatManager implements Serializable
     {
         List<Game> entities = null;
         
-//        TypedQuery<Game> query = em.createNamedQuery( Game.FIND_ALL, Game.class );
-        TypedQuery<Game> query = em.createNamedQuery( Game.FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID, Game.class );
+        TypedQuery<Game> query = em.createNamedQuery( Game.FIND_ALL, Game.class );
+//        TypedQuery<Game> query = em.createNamedQuery( Game.FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID, Game.class );
         
-//        EntityGraph<?> graph = em.createEntityGraph( Game.FETCH_SCORES );
-        EntityGraph<?> graph = em.getEntityGraph( Game.FETCH_SCORES_AND_PLAYER_STATS );
+        EntityGraph<?> graph = em.createEntityGraph( Game.FETCH_SCORES );
+//        EntityGraph<?> graph = em.getEntityGraph( Game.FETCH_SCORES_AND_PLAYER_STATS );
         query.setHint( "javax.persistence.fetchgraph", graph );
         
         entities = query.getResultList();

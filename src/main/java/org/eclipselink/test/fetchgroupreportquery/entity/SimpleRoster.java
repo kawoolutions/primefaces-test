@@ -2,13 +2,10 @@ package org.eclipselink.test.fetchgroupreportquery.entity;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -20,7 +17,6 @@ public class SimpleRoster implements Serializable
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Integer id;
 
@@ -39,9 +35,19 @@ public class SimpleRoster implements Serializable
     {
     }
 
+    public SimpleRoster(Integer id)
+    {
+        this(id, null, null);
+    }
+
+    public SimpleRoster(String clubName, Integer ordinalNbr)
+    {
+        this(null, clubName, ordinalNbr);
+    }
+
     public SimpleRoster(Integer id, String clubName, Integer ordinalNbr)
     {
-        this.id = Objects.requireNonNull(id);
+        this.id = id;
         this.clubName = clubName;
         this.ordinalNbr = ordinalNbr;
     }

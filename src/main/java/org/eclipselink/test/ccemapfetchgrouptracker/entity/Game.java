@@ -50,6 +50,16 @@ public class Game implements Serializable
     {
     }
 
+    public Game(Integer id)
+    {
+        this(id, null);
+    }
+
+    public Game(LocalDateTime scheduledTipoff)
+    {
+        this(null, scheduledTipoff);
+    }
+
     public Game(Integer id, LocalDateTime scheduledTipoff)
     {
         this.id = id;
