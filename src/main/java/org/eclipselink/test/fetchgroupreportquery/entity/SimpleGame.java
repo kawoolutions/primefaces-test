@@ -20,8 +20,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "\"_Simple_Games\"")
-@NamedQuery(name = SimpleGame.FIND_ALL, query = "SELECT ga FROM Game ga")
-@NamedQuery(name = SimpleGame.FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID, query = "SELECT ga FROM Game ga JOIN ga.scores sc GROUP BY ga.id")
+@NamedQuery(name = SimpleGame.FIND_ALL, query = "SELECT ga FROM SimpleGame ga")
+@NamedQuery(name = SimpleGame.FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID, query = "SELECT ga FROM SimpleGame ga JOIN ga.scores sc GROUP BY ga.id")
 @NamedEntityGraph(name = SimpleGame.FETCH_SCORES, attributeNodes = {@NamedAttributeNode("scores")})
 public class SimpleGame implements Serializable
 {
