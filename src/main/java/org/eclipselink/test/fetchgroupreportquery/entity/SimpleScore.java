@@ -21,7 +21,7 @@ public class SimpleScore implements Serializable
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "is_home", insertable = false, updatable = false)
+    @Column(name = "is_home")
     private Boolean home;
 
     @Basic
