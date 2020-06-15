@@ -41,7 +41,7 @@ public class SimpleGame implements Serializable
     private LocalDateTime scheduledTipoff;
 
     @OneToMany(mappedBy = "simpleGame")
-    @MapKeyColumn(name = "is_home")
+    @MapKeyColumn(name = "is_home", insertable = false, updatable = false)
     private Map<Boolean, SimpleScore> simpleScores;
 
     public SimpleGame()
