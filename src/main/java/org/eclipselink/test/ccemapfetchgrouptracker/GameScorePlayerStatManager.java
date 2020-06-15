@@ -27,7 +27,7 @@ import org.eclipselink.test.ccemapfetchgrouptracker.entity.Score;
 
 @Named
 @ApplicationScoped
-public class GameManager implements Serializable
+public class GameScorePlayerStatManager implements Serializable
 {
     private static final long serialVersionUID = 1L;
     
@@ -228,7 +228,6 @@ public class GameManager implements Serializable
         }
         catch ( InterruptedException e )
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -257,13 +256,12 @@ public class GameManager implements Serializable
     
     protected List<Game> loadEntities() throws Exception
     {
-//        EntityManager em = emf.createEntityManager();
-        
         List<Game> entities = null;
         
-//        EntityGraph<?> graph = em.createEntityGraph( Game.FETCH_SCORES );
-        EntityGraph<?> graph = em.getEntityGraph( Game.FETCH_SCORES_AND_PLAYER_STATS );
-        TypedQuery<Game> query = em.createNamedQuery( Game.FIND_ALL, Game.class );
+        EntityGraph<?> graph = em.createEntityGraph( Game.FETCH_SCORES );
+//        EntityGraph<?> graph = em.getEntityGraph( Game.FETCH_SCORES_AND_PLAYER_STATS );
+//        TypedQuery<Game> query = em.createNamedQuery( Game.FIND_ALL, Game.class );
+        TypedQuery<Game> query = em.createNamedQuery( Game.FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID, Game.class );
         
         query.setHint( "javax.persistence.fetchgraph", graph );
         
