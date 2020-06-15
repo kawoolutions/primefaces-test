@@ -3,13 +3,10 @@ package org.eclipselink.test.ccemapfetchgrouptracker.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.NamedAttributeNode;
@@ -38,7 +35,6 @@ public class Game implements Serializable
     public static final String FETCH_SCORES_AND_PLAYER_STATS = "Game.fetchScoresAndPlayerStats";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Integer id;
 
@@ -56,7 +52,7 @@ public class Game implements Serializable
 
     public Game(Integer id, LocalDateTime scheduledTipoff)
     {
-        this.id = Objects.requireNonNull(id);
+        this.id = id;
         this.scheduledTipoff = scheduledTipoff;
     }
 

@@ -2,7 +2,6 @@ package org.eclipselink.test.ccemapfetchgrouptracker.entity;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -34,7 +33,7 @@ public class Player implements Serializable
 
     public Player(Integer id, String name)
     {
-        this.id = Objects.requireNonNull(id);
+        this.id = id;
         this.name = name;
     }
 

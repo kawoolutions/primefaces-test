@@ -1,7 +1,6 @@
 package org.eclipselink.test.ccemapfetchgrouptracker.entity;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public class ScoreId implements Serializable
 {
@@ -17,8 +16,8 @@ public class ScoreId implements Serializable
 
     public ScoreId(Integer gameId, Boolean home)
     {
-        this.game = Objects.requireNonNull(gameId);
-        this.home = Objects.requireNonNull(home);
+        this.game = gameId;
+        this.home = home;
     }
 
     public Integer getGameId()

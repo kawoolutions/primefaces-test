@@ -117,10 +117,10 @@ public class GameScorePlayerStatManager implements Serializable
             
             rosters.forEach( r -> em.persist( r ) );
             
-            Game game01 = newGame( rosters.get( 0 ), rosters.get( 1 ) );
-            Game game02 = newGame( rosters.get( 2 ), rosters.get( 3 ) );
-            Game game03 = newGame( rosters.get( 4 ), rosters.get( 5 ) );
-            Game game04 = newGame( rosters.get( 6 ), rosters.get( 7 ) );
+            Game game01 = newGame( 1, rosters.get( 0 ), rosters.get( 1 ) );
+            Game game02 = newGame( 2, rosters.get( 2 ), rosters.get( 3 ) );
+            Game game03 = newGame( 3, rosters.get( 4 ), rosters.get( 5 ) );
+            Game game04 = newGame( 4, rosters.get( 6 ), rosters.get( 7 ) );
     
             List<Game> games = Arrays.asList( game01, game02, game03, game04 );
             
@@ -198,9 +198,9 @@ public class GameScorePlayerStatManager implements Serializable
         }
     }
     
-    private Game newGame( Roster homeRoster, Roster awayRoster )
+    private Game newGame( Integer id, Roster homeRoster, Roster awayRoster )
     {
-        Game game = new Game( 1, LocalDateTime.now() );
+        Game game = new Game( id, LocalDateTime.now() );
         wait( 500 );
         
         Score homeScore = new Score( game.getId(), Boolean.TRUE, homeRoster.getId(), null );

@@ -2,7 +2,6 @@ package org.eclipselink.test.ccemapfetchgrouptracker.entity;
 
 import java.io.Serializable;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -54,7 +53,7 @@ public class Score implements Serializable
 
     public Score(Integer gameId, Boolean home, Integer rosterId, Integer finalScore)
     {
-        this.home = Objects.requireNonNull(home);
+        this.home = home;
         this.finalScore = finalScore;
 
         this.game = new Game();
