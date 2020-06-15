@@ -26,7 +26,7 @@ import org.eclipselink.test.fetchgroupreportquery.entity.Score;
 
 @Named
 @ApplicationScoped
-public class GameManager implements Serializable
+public class GameScoreManager implements Serializable
 {
     private static final long serialVersionUID = 1L;
     
