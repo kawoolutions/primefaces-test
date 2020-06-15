@@ -21,7 +21,7 @@ public class SimpleScore implements Serializable
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "is_home")
+    @Column(name = "is_home", insertable = false, updatable = false)
     private Boolean home;
 
     @Basic
@@ -41,28 +41,16 @@ public class SimpleScore implements Serializable
     {
     }
 
-    public SimpleScore(Integer finalScore)
-    {
-        this(null, null, null, finalScore);
-    }
-
-    public SimpleScore(Integer gameId, Boolean home)
-    {
-        this(gameId, home, null);
-    }
-
-    public SimpleScore(Integer gameId, Boolean home, Integer rosterId)
-    {
-        this(gameId, home, rosterId, null);
-    }
-
     public SimpleScore(Integer gameId, Boolean home, Integer rosterId, Integer finalScore)
     {
         this.home = Objects.requireNonNull(home);
         this.finalScore = finalScore;
 
-        this.simpleGame = new SimpleGame(gameId);
-        this.simpleRoster = new SimpleRoster(rosterId);
+        this.simpleGame = new SimpleGame();
+        this.simpleGame.setId(gameId);
+
+        this.simpleRoster = new SimpleRoster();
+        this.simpleRoster.setId(rosterId);
     }
 
     public Integer getGameId()

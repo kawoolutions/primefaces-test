@@ -40,43 +40,18 @@ public class SimpleGame implements Serializable
     @Column(name = "scheduled_tipoff")
     private LocalDateTime scheduledTipoff;
 
-    @Basic
-    @Column(name = "official_nbr")
-    private String officialNbr;
-
-    @Basic
-    @Column
-    private Integer attendance;
-
     @OneToMany(mappedBy = "simpleGame")
-    @MapKeyColumn(name = "is_home", insertable = false, updatable = false)
+    @MapKeyColumn(name = "is_home")
     private Map<Boolean, SimpleScore> simpleScores;
 
     public SimpleGame()
     {
     }
 
-    public SimpleGame(Integer id)
-    {
-        this(id, null);
-    }
-
     public SimpleGame(Integer id, LocalDateTime scheduledTipoff)
-    {
-        this(id, scheduledTipoff, null, null);
-    }
-
-    public SimpleGame(LocalDateTime scheduledTipoff, String officialNbr, Integer attendance)
-    {
-        this(null, scheduledTipoff, officialNbr, attendance);
-    }
-
-    public SimpleGame(Integer id, LocalDateTime scheduledTipoff, String officialNbr, Integer attendance)
     {
         this.id = Objects.requireNonNull(id);
         this.scheduledTipoff = scheduledTipoff;
-        this.officialNbr = officialNbr;
-        this.attendance = attendance;
     }
 
     public Integer getId()
@@ -97,26 +72,6 @@ public class SimpleGame implements Serializable
     public void setScheduledTipoff(LocalDateTime scheduledTipoff)
     {
         this.scheduledTipoff = scheduledTipoff;
-    }
-
-    public String getOfficialNbr()
-    {
-        return officialNbr;
-    }
-
-    public void setOfficialNbr(String officialNbr)
-    {
-        this.officialNbr = officialNbr;
-    }
-
-    public Integer getAttendance()
-    {
-        return attendance;
-    }
-
-    public void setAttendance(Integer attendance)
-    {
-        this.attendance = attendance;
     }
 
     public Map<Boolean, SimpleScore> getSimpleScores()
@@ -161,6 +116,6 @@ public class SimpleGame implements Serializable
     @Override
     public String toString()
     {
-        return "[" + id + ", " + scheduledTipoff + ", " + officialNbr + ", " + attendance + "]";
+        return "[" + id + ", " + scheduledTipoff + "]";
     }
 }
