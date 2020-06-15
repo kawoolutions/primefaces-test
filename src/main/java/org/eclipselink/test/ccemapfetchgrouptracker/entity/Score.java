@@ -52,10 +52,16 @@ public class Score implements Serializable
     {
     }
 
-    public Score(Boolean home, Integer finalScore)
+    public Score(Integer gameId, Boolean home, Integer rosterId, Integer finalScore)
     {
         this.home = Objects.requireNonNull(home);
         this.finalScore = finalScore;
+
+        this.game = new Game();
+        this.game.setId(gameId);
+
+        this.roster = new Roster();
+        this.roster.setId(rosterId);
     }
 
     public Integer getGameId()

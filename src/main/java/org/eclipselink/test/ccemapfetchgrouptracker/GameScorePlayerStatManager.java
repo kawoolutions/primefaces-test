@@ -152,7 +152,7 @@ public class GameScorePlayerStatManager implements Serializable
                 {
                     Integer jerseyNbr = index + 10;
                     
-                    PlayerStat ps = new PlayerStat( jerseyNbr, Boolean.TRUE, Boolean.TRUE );
+                    PlayerStat ps = new PlayerStat( game.getId(), homeScore.getHome(), player.getId(), jerseyNbr );
                     ps.setScore( homeScore );
                     ps.setPlayer( player );
                     
@@ -173,7 +173,7 @@ public class GameScorePlayerStatManager implements Serializable
                 {
                     Integer jerseyNbr = index + 10;
                     
-                    PlayerStat ps = new PlayerStat( jerseyNbr, Boolean.TRUE, Boolean.TRUE );
+                    PlayerStat ps = new PlayerStat( game.getId(), awayScore.getHome(), player.getId(), jerseyNbr );
                     ps.setScore( awayScore );
                     ps.setPlayer( player );
                     
@@ -203,11 +203,11 @@ public class GameScorePlayerStatManager implements Serializable
         Game game = new Game( 1, LocalDateTime.now() );
         wait( 500 );
         
-        Score homeScore = new Score( Boolean.TRUE, null );
+        Score homeScore = new Score( game.getId(), Boolean.TRUE, homeRoster.getId(), null );
         homeScore.setRoster( homeRoster );
         homeScore.setGame( game );
         
-        Score awayScore = new Score( Boolean.FALSE, null );
+        Score awayScore = new Score( game.getId(), Boolean.FALSE, awayRoster.getId(), null );
         awayScore.setRoster( awayRoster );
         awayScore.setGame( game );
         
@@ -258,11 +258,11 @@ public class GameScorePlayerStatManager implements Serializable
     {
         List<Game> entities = null;
         
-        EntityGraph<?> graph = em.createEntityGraph( Game.FETCH_SCORES );
-//        EntityGraph<?> graph = em.getEntityGraph( Game.FETCH_SCORES_AND_PLAYER_STATS );
 //        TypedQuery<Game> query = em.createNamedQuery( Game.FIND_ALL, Game.class );
         TypedQuery<Game> query = em.createNamedQuery( Game.FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID, Game.class );
         
+//        EntityGraph<?> graph = em.createEntityGraph( Game.FETCH_SCORES );
+        EntityGraph<?> graph = em.getEntityGraph( Game.FETCH_SCORES_AND_PLAYER_STATS );
         query.setHint( "javax.persistence.fetchgraph", graph );
         
         entities = query.getResultList();

@@ -23,14 +23,6 @@ public class PlayerStat implements Serializable
     @Column(name = "jersey_nbr")
     private Integer jerseyNbr;
 
-    @Basic(optional = false)
-    @Column(name = "has_played")
-    private Boolean hasPlayed = Boolean.TRUE;
-
-    @Basic
-    @Column(name = "is_starter")
-    private Boolean starter;
-
     @Id
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "game_id", referencedColumnName = "game_id")
@@ -46,11 +38,16 @@ public class PlayerStat implements Serializable
     {
     }
 
-    public PlayerStat(Integer jerseyNbr, Boolean hasPlayed, Boolean starter)
+    public PlayerStat(Integer gameId, Boolean home, Integer playerId, Integer jerseyNbr)
     {
         this.jerseyNbr = jerseyNbr;
-        this.hasPlayed = hasPlayed;
-        this.starter = starter;
+
+        this.score = new Score();
+        this.score.setGameId(gameId);
+        this.score.setHome(home);
+
+        this.player = new Player();
+        this.player.setId(playerId);
     }
 
     public Integer getGameId()
@@ -91,26 +88,6 @@ public class PlayerStat implements Serializable
     public void setJerseyNbr(Integer jerseyNbr)
     {
         this.jerseyNbr = jerseyNbr;
-    }
-
-    public Boolean getHasPlayed()
-    {
-        return hasPlayed;
-    }
-
-    public void setHasPlayed(Boolean hasPlayed)
-    {
-        this.hasPlayed = hasPlayed;
-    }
-
-    public Boolean getStarter()
-    {
-        return starter;
-    }
-
-    public void setStarter(Boolean starter)
-    {
-        this.starter = starter;
     }
 
     public Score getScore()
@@ -173,6 +150,6 @@ public class PlayerStat implements Serializable
     @Override
     public String toString()
     {
-        return "[" + jerseyNbr + ", " + hasPlayed + ", " + starter + "]";
+        return "[" + jerseyNbr + "]";
     }
 }

@@ -32,10 +32,6 @@ public class Roster implements Serializable
     @Column(name = "ordinal_nbr")
     private Integer ordinalNbr;
 
-    @Basic
-    @Column(name = "jersey_color")
-    private String jerseyColor;
-
     @OneToMany(mappedBy = "roster")
     private List<Score> scores;
 
@@ -43,27 +39,11 @@ public class Roster implements Serializable
     {
     }
 
-    public Roster(Integer id)
-    {
-        this(id, null, null);
-    }
-
     public Roster(Integer id, String clubName, Integer ordinalNbr)
-    {
-        this(id, clubName, ordinalNbr, null);
-    }
-
-    public Roster(String clubName, Integer ordinalNbr, String jerseyColor)
-    {
-        this(null, clubName, ordinalNbr, jerseyColor);
-    }
-
-    public Roster(Integer id, String clubName, Integer ordinalNbr, String jerseyColor)
     {
         this.id = Objects.requireNonNull(id);
         this.clubName = clubName;
         this.ordinalNbr = ordinalNbr;
-        this.jerseyColor = jerseyColor;
     }
 
     public Integer getId()
@@ -94,16 +74,6 @@ public class Roster implements Serializable
     public void setOrdinalNbr(Integer ordinalNbr)
     {
         this.ordinalNbr = ordinalNbr;
-    }
-
-    public String getJerseyColor()
-    {
-        return jerseyColor;
-    }
-
-    public void setJerseyColor(String jerseyColor)
-    {
-        this.jerseyColor = jerseyColor;
     }
 
     public List<Score> getScores()
@@ -148,6 +118,6 @@ public class Roster implements Serializable
     @Override
     public String toString()
     {
-        return "[" + id + ", " + clubName + ", " + ordinalNbr + ", " + jerseyColor + "]";
+        return "[" + id + ", " + clubName + ", " + ordinalNbr + "]";
     }
 }

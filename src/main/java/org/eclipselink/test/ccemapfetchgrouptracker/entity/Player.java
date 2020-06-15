@@ -32,16 +32,6 @@ public class Player implements Serializable
     {
     }
 
-    public Player(Integer id)
-    {
-        this(id, null);
-    }
-
-    public Player(String name)
-    {
-        this(null, name);
-    }
-
     public Player(Integer id, String name)
     {
         this.id = Objects.requireNonNull(id);

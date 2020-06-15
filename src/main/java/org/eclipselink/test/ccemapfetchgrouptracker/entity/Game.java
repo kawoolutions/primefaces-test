@@ -22,6 +22,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "\"Games\"")
 @NamedQuery(name = Game.FIND_ALL, query = "SELECT ga FROM Game ga")
+@NamedQuery(name = Game.FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID, query = "SELECT ga FROM Game ga JOIN ga.scores sc GROUP BY ga.id")
 @NamedEntityGraph(name = Game.FETCH_SCORES, attributeNodes = {@NamedAttributeNode("scores")})
 @NamedEntityGraph(name = Game.FETCH_SCORES_AND_PLAYER_STATS,
                   attributeNodes = {@NamedAttributeNode(value = "scores", subgraph = Score.FETCH_PLAYER_STATS)},
@@ -32,6 +33,7 @@ public class Game implements Serializable
     private static final long serialVersionUID = 1L;
 
     public static final String FIND_ALL = "Game.findAll";
+    public static final String FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID = "Game.findAllJoinScoresGroupByGameId";
     public static final String FETCH_SCORES = "Game.fetchScores";
     public static final String FETCH_SCORES_AND_PLAYER_STATS = "Game.fetchScoresAndPlayerStats";
 
@@ -44,14 +46,6 @@ public class Game implements Serializable
     @Column(name = "scheduled_tipoff")
     private LocalDateTime scheduledTipoff;
 
-    @Basic
-    @Column(name = "official_nbr")
-    private String officialNbr;
-
-    @Basic
-    @Column
-    private Integer attendance;
-
     @OneToMany(mappedBy = "game")
     @MapKeyColumn(name = "is_home", insertable = false, updatable = false)
     private Map<Boolean, Score> scores;
@@ -60,27 +54,10 @@ public class Game implements Serializable
     {
     }
 
-    public Game(Integer id)
-    {
-        this(id, null);
-    }
-
     public Game(Integer id, LocalDateTime scheduledTipoff)
-    {
-        this(id, scheduledTipoff, null, null);
-    }
-
-    public Game(LocalDateTime scheduledTipoff, String officialNbr, Integer attendance)
-    {
-        this(null, scheduledTipoff, officialNbr, attendance);
-    }
-
-    public Game(Integer id, LocalDateTime scheduledTipoff, String officialNbr, Integer attendance)
     {
         this.id = Objects.requireNonNull(id);
         this.scheduledTipoff = scheduledTipoff;
-        this.officialNbr = officialNbr;
-        this.attendance = attendance;
     }
 
     public Integer getId()
@@ -101,26 +78,6 @@ public class Game implements Serializable
     public void setScheduledTipoff(LocalDateTime scheduledTipoff)
     {
         this.scheduledTipoff = scheduledTipoff;
-    }
-
-    public String getOfficialNbr()
-    {
-        return officialNbr;
-    }
-
-    public void setOfficialNbr(String officialNbr)
-    {
-        this.officialNbr = officialNbr;
-    }
-
-    public Integer getAttendance()
-    {
-        return attendance;
-    }
-
-    public void setAttendance(Integer attendance)
-    {
-        this.attendance = attendance;
     }
 
     public Map<Boolean, Score> getScores()
@@ -165,6 +122,6 @@ public class Game implements Serializable
     @Override
     public String toString()
     {
-        return "[" + id + ", " + scheduledTipoff + ", " + officialNbr + ", " + attendance + "]";
+        return "[" + id + ", " + scheduledTipoff + "]";
     }
 }
