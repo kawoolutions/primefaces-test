@@ -163,8 +163,48 @@ public class GameScoreManager implements Serializable
     {
         List<SimpleGame> entities = null;
         
-//        TypedQuery<SimpleGame> query = em.createNamedQuery( SimpleGame.FIND_ALL, Game.class );
-        TypedQuery<SimpleGame> query = em.createNamedQuery( SimpleGame.FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID, SimpleGame.class );
+        TypedQuery<SimpleGame> query = em.createNamedQuery( SimpleGame.FIND_ALL, SimpleGame.class );
+        // ^^ causes:
+//        Exception Description: You must define a fetch group manager at descriptor (org.eclipselink.test.fetchgroupreportquery.entity.SimpleGame) in order to set a fetch group on the query (SimpleGame.findAll)
+//        Query: ReadAllQuery(name="SimpleGame.findAll" referenceClass=SimpleGame sql="SELECT ID, scheduled_tipoff FROM "_Simple_Games"")
+//        FetchGroup(SimpleGame.fetchScores){simpleScores => {} => {}}
+//            at org.eclipse.persistence.exceptions.QueryException.fetchGroupValidOnlyIfFetchGroupManagerInDescriptor(QueryException.java:1307)
+//            at org.eclipse.persistence.queries.ObjectLevelReadQuery.prepareFetchGroup(ObjectLevelReadQuery.java:2140)
+//            at org.eclipse.persistence.queries.ObjectLevelReadQuery.prePrepare(ObjectLevelReadQuery.java:2160)
+//            at org.eclipse.persistence.queries.ObjectLevelReadQuery.checkPrePrepare(ObjectLevelReadQuery.java:985)
+//            at org.eclipse.persistence.queries.DatabaseQuery.execute(DatabaseQuery.java:829)
+//            at org.eclipse.persistence.queries.ObjectLevelReadQuery.execute(ObjectLevelReadQuery.java:1191)
+//            at org.eclipse.persistence.queries.ReadAllQuery.execute(ReadAllQuery.java:485)
+//            at org.eclipse.persistence.queries.ObjectLevelReadQuery.executeInUnitOfWork(ObjectLevelReadQuery.java:1279)
+//            at org.eclipse.persistence.internal.sessions.UnitOfWorkImpl.internalExecuteQuery(UnitOfWorkImpl.java:2983)
+//            at org.eclipse.persistence.internal.sessions.AbstractSession.executeQuery(AbstractSession.java:1898)
+//            at org.eclipse.persistence.internal.sessions.AbstractSession.executeQuery(AbstractSession.java:1880)
+//            at org.eclipse.persistence.internal.sessions.AbstractSession.executeQuery(AbstractSession.java:1845)
+//            at org.eclipse.persistence.internal.jpa.QueryImpl.executeReadQuery(QueryImpl.java:262)
+//            at org.eclipse.persistence.internal.jpa.QueryImpl.getResultList(QueryImpl.java:482)
+//            ... 65 more
+//        -> also see: https://stackoverflow.com/questions/47338358/entitygraph-you-must-define-a-fetch-group-manager-at-descriptor-in-order-to-se
+        
+//        TypedQuery<SimpleGame> query = em.createNamedQuery( SimpleGame.FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID, SimpleGame.class );
+        // ^^ causes:
+//      Exception Description: Fetch group cannot be set on report query.
+//      Query: ReportQuery(name="SimpleGame.findAllJoinScoresGroupByGameId" referenceClass=SimpleGame sql="SELECT t0.ID, t0.scheduled_tipoff FROM "_Simple_Games" t0, "_Simple_Scores" t1 WHERE (t1.game_id = t0.ID) GROUP BY t0.ID")
+//      FetchGroup(SimpleGame.fetchScores){simpleScores => {} => {}}
+//          at org.eclipse.persistence.exceptions.QueryException.fetchGroupNotSupportOnReportQuery(QueryException.java:1291)
+//          at org.eclipse.persistence.queries.ReportQuery.prepareFetchGroup(ReportQuery.java:1128)
+//          at org.eclipse.persistence.queries.ObjectLevelReadQuery.prePrepare(ObjectLevelReadQuery.java:2160)
+//          at org.eclipse.persistence.queries.ObjectLevelReadQuery.checkPrePrepare(ObjectLevelReadQuery.java:985)
+//          at org.eclipse.persistence.queries.DatabaseQuery.execute(DatabaseQuery.java:829)
+//          at org.eclipse.persistence.queries.ObjectLevelReadQuery.execute(ObjectLevelReadQuery.java:1191)
+//          at org.eclipse.persistence.queries.ReadAllQuery.execute(ReadAllQuery.java:485)
+//          at org.eclipse.persistence.queries.ObjectLevelReadQuery.executeInUnitOfWork(ObjectLevelReadQuery.java:1279)
+//          at org.eclipse.persistence.internal.sessions.UnitOfWorkImpl.internalExecuteQuery(UnitOfWorkImpl.java:2983)
+//          at org.eclipse.persistence.internal.sessions.AbstractSession.executeQuery(AbstractSession.java:1898)
+//          at org.eclipse.persistence.internal.sessions.AbstractSession.executeQuery(AbstractSession.java:1880)
+//          at org.eclipse.persistence.internal.sessions.AbstractSession.executeQuery(AbstractSession.java:1845)
+//          at org.eclipse.persistence.internal.jpa.QueryImpl.executeReadQuery(QueryImpl.java:262)
+//          at org.eclipse.persistence.internal.jpa.QueryImpl.getResultList(QueryImpl.java:482)
+//          ... 70 more
         
         EntityGraph<?> graph = em.createEntityGraph( SimpleGame.FETCH_SCORES );
         query.setHint( "javax.persistence.fetchgraph", graph );
