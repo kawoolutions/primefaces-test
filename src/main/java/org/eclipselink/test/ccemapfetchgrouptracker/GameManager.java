@@ -46,28 +46,41 @@ public class GameManager implements Serializable
     {
         System.out.println( "Entity manager factory: " + emf );
         
+        // usually not injectable, so create EMF manually
         if ( this.emf == null )
         {
             System.out.println( "Programmatically creating entity manager factory..." );
             
             Map<String, String> properties = new HashMap<>();
-
-            properties.put( "javax.persistence.jdbc.driver", "org.hsqldb.jdbcDriver" );
-            properties.put( "javax.persistence.jdbc.url", "jdbc:hsqldb:mem:test" );
-            properties.put( "javax.persistence.jdbc.user", "sa" );
-            properties.put( "javax.persistence.jdbc.password", "" );
-
-            properties.put( "eclipselink.target-database", "org.eclipse.persistence.platform.database.HSQLPlatform" );
-            properties.put( "eclipselink.ddl-generation", "create-tables" );
-            properties.put( "eclipselink.ddl-generation.output-mode", "database" );
+            
+//            PersistenceProvider provider = new org.eclipse.persistence.jpa.PersistenceProvider();
+//
+//            // very important: must be a class name, e.g. "org.eclipse.persistence.jpa.PersistenceProvider"
+//            properties.put( "javax.persistence.provider", provider.getClass().getName() );
+//
+//            properties.put( TRANSACTION_TYPE, PersistenceUnitTransactionType.RESOURCE_LOCAL.name() );
+//
+//            properties.put( JDBC_DRIVER, "org.hsqldb.jdbcDriver" );
+//            properties.put( JDBC_URL, "jdbc:hsqldb:mem:test" );
+//            properties.put( JDBC_USER, "sa" );
+//            properties.put( JDBC_PASSWORD, "" );
+//
+//            properties.put( DDL_GENERATION, "create-tables" );
+//            properties.put( DDL_GENERATION_MODE, "database" );
+//
+//            properties.put( TARGET_DATABASE, "org.eclipse.persistence.platform.database.HSQLPlatform" );
+//            properties.put( TARGET_SERVER, TargetServer.None );
+            
+            // use dynamic weaving
+//            properties.put( WEAVING, "null" );
+//            properties.put( WEAVING, "true" );
             
 //            properties.put( PersistenceUnitProperties.ECLIPSELINK_PERSISTENCE_XML, "src/main/resources/" + PersistenceUnitProperties.ECLIPSELINK_PERSISTENCE_XML_DEFAULT );
-//            properties.put( PersistenceUnitProperties.WEAVING, "true" );
             
+            // the EMF creation process REQUIRES a persistence.xml to be on the classpath AT ALL TIMES, see JPAInitializer.findPersistenceUnitInfoInArchives(String puName, Map m)
+            // this is why setting the properties here is kinda wasted energy: specify them in the persistence.xml
             this.emf = Persistence.createEntityManagerFactory( "TestPU", properties );
-//            this.emf.
-            
-            // org.eclipse.persistence.jpa.PersistenceProvider
+//            this.emf = provider.createEntityManagerFactory( "TestPU", properties );
         }
         
         EntityManager em = emf.createEntityManager();

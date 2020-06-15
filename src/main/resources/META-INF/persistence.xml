@@ -59,15 +59,16 @@
             <property name="eclipselink.ddl-generation" value="create-tables" />
             <property name="eclipselink.ddl-generation.output-mode" value="database" />
             
+            <!-- use null for dynamic weaving -->
+            <property name="eclipselink.weaving" value="null" />
+            
+            <property name="eclipselink.logging.level" value="INFO" />
+            
             <!-- EclipseLink MySQL test properties -->
             <!--property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/bbstats?serverTimezone=UTC" />
             <property name="javax.persistence.jdbc.user" value="root" />
             <property name="javax.persistence.jdbc.password" value="rooot" /-->
-            
-            <property name="eclipselink.logging.level" value="INFO" />
-            
-            <property name="eclipselink.weaving" value="static" />
             
             <!--property name="eclipselink.logging.level.sql" value="FINE" />
             <property name="eclipselink.logging.parameters" value="true" />
