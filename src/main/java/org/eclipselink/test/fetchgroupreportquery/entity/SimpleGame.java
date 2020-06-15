@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"_Simple_Games\"")
+@Table(name = "\"SimpleGames\"")
 @NamedQuery(name = SimpleGame.FIND_ALL, query = "SELECT ga FROM SimpleGame ga")
 @NamedQuery(name = SimpleGame.FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID, query = "SELECT ga FROM SimpleGame ga JOIN ga.simpleScores sc GROUP BY ga.id")
 @NamedEntityGraph(name = SimpleGame.FETCH_SCORES, attributeNodes = {@NamedAttributeNode("simpleScores")})
