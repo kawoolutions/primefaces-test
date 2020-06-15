@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <h:form id="game-table-form">
+        
+        <p:dataTable id="table"
+                     value="#{gameManager.entities}"
+                     var="ent"
+                     rowKey="#{ent.id}"
+                     rows="20"
+                     style="width: 1000px;">
+            
+            <p:column headerText="ID" width="30">
+                <h:outputText value="#{ent.id}" />
+            </p:column>
+            
+            <p:column headerText="Home Team" width="100">
+                <h:outputText value="#{ent.scores[true].roster.clubName} #{ent.scores[true].roster.ordinalNbr}" />
+            </p:column>
+            
+            <p:column headerText="Away Team" width="100">
+                <h:outputText value="#{ent.scores[false].roster.clubName} #{ent.scores[false].roster.ordinalNbr}" />
+            </p:column>
+            
+            <p:column headerText="Scheduled Tipoff" width="40">
+                <h:outputText value="#{ent.scheduledTipoff}" />
+            </p:column>
+            
+            <p:column headerText="Official #" width="20">
+                <h:outputText value="#{ent.officialNbr}" />
+            </p:column>
+            
+            <p:column headerText="Attendance" width="20">
+                <h:outputText value="#{ent.attendance}" />
+            </p:column>
+            
+        </p:dataTable>
+        
+    </h:form>
+
+</ui:composition>
