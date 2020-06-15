@@ -15,27 +15,21 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedQuery;
-import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"Games\"")
-@NamedQuery(name = Game.FIND_ALL, query = "SELECT ga FROM Game ga")
-@NamedQuery(name = Game.FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID, query = "SELECT ga FROM Game ga JOIN ga.scores sc GROUP BY ga.id")
-@NamedEntityGraph(name = Game.FETCH_SCORES, attributeNodes = {@NamedAttributeNode("scores")})
-@NamedEntityGraph(name = Game.FETCH_SCORES_AND_PLAYER_STATS,
-                  attributeNodes = {@NamedAttributeNode(value = "scores", subgraph = Score.FETCH_PLAYER_STATS)},
-                  subgraphs = {@NamedSubgraph(name = Score.FETCH_PLAYER_STATS, attributeNodes = @NamedAttributeNode("playerStats"))}
-)
-public class Game implements Serializable
+@Table(name = "\"_Simple_Games\"")
+@NamedQuery(name = SimpleGame.FIND_ALL, query = "SELECT ga FROM Game ga")
+@NamedQuery(name = SimpleGame.FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID, query = "SELECT ga FROM Game ga JOIN ga.scores sc GROUP BY ga.id")
+@NamedEntityGraph(name = SimpleGame.FETCH_SCORES, attributeNodes = {@NamedAttributeNode("scores")})
+public class SimpleGame implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    public static final String FIND_ALL = "Game.findAll";
-    public static final String FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID = "Game.findAllJoinScoresGroupByGameId";
-    public static final String FETCH_SCORES = "Game.fetchScores";
-    public static final String FETCH_SCORES_AND_PLAYER_STATS = "Game.fetchScoresAndPlayerStats";
+    public static final String FIND_ALL = "SimpleGame.findAll";
+    public static final String FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID = "SimpleGame.findAllJoinScoresGroupByGameId";
+    public static final String FETCH_SCORES = "SimpleGame.fetchScores";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,30 +48,30 @@ public class Game implements Serializable
     @Column
     private Integer attendance;
 
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "simpleGame")
     @MapKeyColumn(name = "is_home")
-    private Map<Boolean, Score> scores;
+    private Map<Boolean, SimpleScore> simpleScores;
 
-    public Game()
+    public SimpleGame()
     {
     }
 
-    public Game(Integer id)
+    public SimpleGame(Integer id)
     {
         this(id, null);
     }
 
-    public Game(Integer id, LocalDateTime scheduledTipoff)
+    public SimpleGame(Integer id, LocalDateTime scheduledTipoff)
     {
         this(id, scheduledTipoff, null, null);
     }
 
-    public Game(LocalDateTime scheduledTipoff, String officialNbr, Integer attendance)
+    public SimpleGame(LocalDateTime scheduledTipoff, String officialNbr, Integer attendance)
     {
         this(null, scheduledTipoff, officialNbr, attendance);
     }
 
-    public Game(Integer id, LocalDateTime scheduledTipoff, String officialNbr, Integer attendance)
+    public SimpleGame(Integer id, LocalDateTime scheduledTipoff, String officialNbr, Integer attendance)
     {
         this.id = Objects.requireNonNull(id);
         this.scheduledTipoff = scheduledTipoff;
@@ -125,14 +119,14 @@ public class Game implements Serializable
         this.attendance = attendance;
     }
 
-    public Map<Boolean, Score> getScores()
+    public Map<Boolean, SimpleScore> getSimpleScores()
     {
-        return scores;
+        return simpleScores;
     }
 
-    public void setScores(Map<Boolean, Score> scores)
+    public void setSimpleScores(Map<Boolean, SimpleScore> simpleScores)
     {
-        this.scores = scores;
+        this.simpleScores = simpleScores;
     }
 
     @Override
@@ -153,7 +147,7 @@ public class Game implements Serializable
             return false;
         if ( getClass() != obj.getClass() )
             return false;
-        Game other = ( Game ) obj;
+        SimpleGame other = ( SimpleGame ) obj;
         if ( id == null )
         {
             if ( other.id != null )

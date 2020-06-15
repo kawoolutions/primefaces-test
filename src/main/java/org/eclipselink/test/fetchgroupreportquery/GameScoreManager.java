@@ -19,9 +19,9 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
 
-import org.eclipselink.test.fetchgroupreportquery.entity.Game;
-import org.eclipselink.test.fetchgroupreportquery.entity.Roster;
-import org.eclipselink.test.fetchgroupreportquery.entity.Score;
+import org.eclipselink.test.fetchgroupreportquery.entity.SimpleGame;
+import org.eclipselink.test.fetchgroupreportquery.entity.SimpleRoster;
+import org.eclipselink.test.fetchgroupreportquery.entity.SimpleScore;
 
 
 @Named
@@ -30,7 +30,7 @@ public class GameScoreManager implements Serializable
 {
     private static final long serialVersionUID = 1L;
     
-    private List<Game> entities;
+    private List<SimpleGame> entities;
 
     @PersistenceUnit( unitName = "TestPU" )
     private EntityManagerFactory emf;
@@ -63,44 +63,44 @@ public class GameScoreManager implements Serializable
         this.et = em.getTransaction();
         this.et.begin();
         
-        List<Roster> rosters = new ArrayList<Roster>();
-        rosters.add( new Roster( 1, "Dallas Mavericks", 3 ) );
-        rosters.add( new Roster( 2, "Harlem Globetrotters", 2 ) );
-        rosters.add( new Roster( 3, "Frankfurt Skyliners", 1 ) );
-        rosters.add( new Roster( 4, "Chicago Bulls", 1 ) );
-        rosters.add( new Roster( 5, "Boston Celtics", 4 ) );
-        rosters.add( new Roster( 6, "New York Knicks", 3 ) );
-        rosters.add( new Roster( 7, "Miami Heat", 2 ) );
-        rosters.add( new Roster( 8, "Unicaya Malaga", 1 ) );
+        List<SimpleRoster> rosters = new ArrayList<>();
+        rosters.add( new SimpleRoster( 1, "Dallas Mavericks", 3 ) );
+        rosters.add( new SimpleRoster( 2, "Harlem Globetrotters", 2 ) );
+        rosters.add( new SimpleRoster( 3, "Frankfurt Skyliners", 1 ) );
+        rosters.add( new SimpleRoster( 4, "Chicago Bulls", 1 ) );
+        rosters.add( new SimpleRoster( 5, "Boston Celtics", 4 ) );
+        rosters.add( new SimpleRoster( 6, "New York Knicks", 3 ) );
+        rosters.add( new SimpleRoster( 7, "Miami Heat", 2 ) );
+        rosters.add( new SimpleRoster( 8, "Unicaya Malaga", 1 ) );
         
         rosters.forEach( r -> em.persist( r ) );
         
-        Game game01 = newGame( rosters.get( 0 ), rosters.get( 1 ) );
-        Game game02 = newGame( rosters.get( 2 ), rosters.get( 3 ) );
-        Game game03 = newGame( rosters.get( 4 ), rosters.get( 5 ) );
-        Game game04 = newGame( rosters.get( 6 ), rosters.get( 7 ) );
+        SimpleGame game01 = newGame( rosters.get( 0 ), rosters.get( 1 ) );
+        SimpleGame game02 = newGame( rosters.get( 2 ), rosters.get( 3 ) );
+        SimpleGame game03 = newGame( rosters.get( 4 ), rosters.get( 5 ) );
+        SimpleGame game04 = newGame( rosters.get( 6 ), rosters.get( 7 ) );
 
-        List<Game> games = Arrays.asList( game01, game02, game03, game04 );
+        List<SimpleGame> games = Arrays.asList( game01, game02, game03, game04 );
         
-        for ( Game game : games )
+        for ( SimpleGame game : games )
         {
-            Score homeScore = game.getScores().get( Boolean.TRUE );
-            Score awayScore = game.getScores().get( Boolean.FALSE );
+            SimpleScore homeScore = game.getSimpleScores().get( Boolean.TRUE );
+            SimpleScore awayScore = game.getSimpleScores().get( Boolean.FALSE );
             
             System.out.println( "Game before persist: " + NamingUtils.getGameLabelFor( game ) + ", home = " + homeScore + ", away = " + awayScore );
 
-            game.setScores( null );
+            game.setSimpleScores( null );
 
             em.persist( game );
             
             em.persist( homeScore );
             em.persist( awayScore );
             
-            Map<Boolean, Score> scores = new HashMap<>();
+            Map<Boolean, SimpleScore> scores = new HashMap<>();
             scores.put( homeScore.getHome(), homeScore );
             scores.put( awayScore.getHome(), awayScore );
             
-            game.setScores( scores );
+            game.setSimpleScores( scores );
             
             System.out.println( "Game after persist: " + NamingUtils.getGameLabelFor( game ) + ", home = " + homeScore + ", away = " + awayScore );
         }
@@ -108,24 +108,24 @@ public class GameScoreManager implements Serializable
         this.et.commit();
     }
     
-    private Game newGame( Roster homeRoster, Roster awayRoster )
+    private SimpleGame newGame( SimpleRoster homeRoster, SimpleRoster awayRoster )
     {
-        Game game = new Game( 1, LocalDateTime.now() );
+        SimpleGame game = new SimpleGame( 1, LocalDateTime.now() );
         wait( 500 );
         
-        Score homeScore = new Score( game.getId(), Boolean.TRUE, homeRoster.getId(), null );
-        homeScore.setRoster( homeRoster );
-        homeScore.setGame( game );
+        SimpleScore homeScore = new SimpleScore( game.getId(), Boolean.TRUE, homeRoster.getId(), null );
+        homeScore.setSimpleRoster( homeRoster );
+        homeScore.setSimpleGame( game );
         
-        Score awayScore = new Score( game.getId(), Boolean.FALSE, awayRoster.getId(), null );
-        awayScore.setRoster( awayRoster );
-        awayScore.setGame( game );
+        SimpleScore awayScore = new SimpleScore( game.getId(), Boolean.FALSE, awayRoster.getId(), null );
+        awayScore.setSimpleRoster( awayRoster );
+        awayScore.setSimpleGame( game );
         
-        Map<Boolean, Score> scores = new HashMap<>();
+        Map<Boolean, SimpleScore> scores = new HashMap<>();
         scores.put( homeScore.getHome(), homeScore );
         scores.put( awayScore.getHome(), awayScore );
         
-        game.setScores( scores );
+        game.setSimpleScores( scores );
 
         return game;
     }
@@ -142,7 +142,7 @@ public class GameScoreManager implements Serializable
         }
     }
 
-    public List<Game> getEntities()
+    public List<SimpleGame> getEntities()
     {
         if ( entities == null )
         {
@@ -159,20 +159,19 @@ public class GameScoreManager implements Serializable
         return entities;
     }
 
-    public void setEntities( List<Game> entities )
+    public void setEntities( List<SimpleGame> entities )
     {
         this.entities = entities;
     }
     
-    protected List<Game> loadEntities() throws Exception
+    protected List<SimpleGame> loadEntities() throws Exception
     {
-        List<Game> entities = null;
+        List<SimpleGame> entities = null;
         
-        EntityGraph<?> graph = em.createEntityGraph( Game.FETCH_SCORES );
-//        EntityGraph<?> graph = em.getEntityGraph( Game.FETCH_SCORES_AND_PLAYER_STATS );
-//        TypedQuery<Game> query = em.createNamedQuery( Game.FIND_ALL, Game.class );
-        TypedQuery<Game> query = em.createNamedQuery( Game.FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID, Game.class );
+//        TypedQuery<SimpleGame> query = em.createNamedQuery( SimpleGame.FIND_ALL, Game.class );
+        TypedQuery<SimpleGame> query = em.createNamedQuery( SimpleGame.FIND_ALL_JOIN_SCORES_GROUP_BY_GAME_ID, SimpleGame.class );
         
+        EntityGraph<?> graph = em.createEntityGraph( SimpleGame.FETCH_SCORES );
         query.setHint( "javax.persistence.fetchgraph", graph );
         
         entities = query.getResultList();

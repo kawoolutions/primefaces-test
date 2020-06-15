@@ -14,13 +14,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"Scores\"")
-@IdClass(ScoreId.class)
-public class Score implements Serializable
+@Table(name = "\"_Simple_Scores\"")
+@IdClass(SimpleScoreId.class)
+public class SimpleScore implements Serializable
 {
     private static final long serialVersionUID = 1L;
-
-    public static final String FETCH_PLAYER_STATS = "Score.fetchPlayerStats";
 
     @Id
     @Column(name = "is_home", insertable = false, updatable = false)
@@ -33,48 +31,48 @@ public class Score implements Serializable
     @Id
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "game_id")
-    private Game game;
+    private SimpleGame simpleGame;
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "roster_id")
-    private Roster roster;
+    private SimpleRoster simpleRoster;
 
-    public Score()
+    public SimpleScore()
     {
     }
 
-    public Score(Integer finalScore)
+    public SimpleScore(Integer finalScore)
     {
         this(null, null, null, finalScore);
     }
 
-    public Score(Integer gameId, Boolean home)
+    public SimpleScore(Integer gameId, Boolean home)
     {
         this(gameId, home, null);
     }
 
-    public Score(Integer gameId, Boolean home, Integer rosterId)
+    public SimpleScore(Integer gameId, Boolean home, Integer rosterId)
     {
         this(gameId, home, rosterId, null);
     }
 
-    public Score(Integer gameId, Boolean home, Integer rosterId, Integer finalScore)
+    public SimpleScore(Integer gameId, Boolean home, Integer rosterId, Integer finalScore)
     {
         this.home = Objects.requireNonNull(home);
         this.finalScore = finalScore;
 
-        this.game = new Game(gameId);
-        this.roster = new Roster(rosterId);
+        this.simpleGame = new SimpleGame(gameId);
+        this.simpleRoster = new SimpleRoster(rosterId);
     }
 
     public Integer getGameId()
     {
-        return game.getId();
+        return simpleGame.getId();
     }
 
     public void setGameId(Integer gameId)
     {
-        game.setId(gameId);
+        simpleGame.setId(gameId);
     }
 
     public Boolean getHome()
@@ -89,12 +87,12 @@ public class Score implements Serializable
 
     public Integer getRosterId()
     {
-        return roster.getId();
+        return simpleRoster.getId();
     }
 
     public void setRosterId(Integer rosterId)
     {
-        roster.setId(rosterId);
+        simpleRoster.setId(rosterId);
     }
 
     public Integer getFinalScore()
@@ -107,24 +105,24 @@ public class Score implements Serializable
         this.finalScore = finalScore;
     }
 
-    public Game getGame()
+    public SimpleGame getSimpleGame()
     {
-        return game;
+        return simpleGame;
     }
 
-    public void setGame(Game game)
+    public void setSimpleGame(SimpleGame simpleGame)
     {
-        this.game = game;
+        this.simpleGame = simpleGame;
     }
 
-    public Roster getRoster()
+    public SimpleRoster getSimpleRoster()
     {
-        return roster;
+        return simpleRoster;
     }
 
-    public void setRoster(Roster roster)
+    public void setSimpleRoster(SimpleRoster simpleRoster)
     {
-        this.roster = roster;
+        this.simpleRoster = simpleRoster;
     }
 
     @Override
@@ -132,8 +130,8 @@ public class Score implements Serializable
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ( (game == null) ? 0 : game.hashCode() );
         result = prime * result + ( (home == null) ? 0 : home.hashCode() );
+        result = prime * result + ( (simpleGame == null) ? 0 : simpleGame.hashCode() );
         return result;
     }
 
@@ -146,20 +144,20 @@ public class Score implements Serializable
             return false;
         if ( getClass() != obj.getClass() )
             return false;
-        Score other = ( Score ) obj;
-        if ( game == null )
-        {
-            if ( other.game != null )
-                return false;
-        }
-        else if ( !game.equals( other.game ) )
-            return false;
+        SimpleScore other = ( SimpleScore ) obj;
         if ( home == null )
         {
             if ( other.home != null )
                 return false;
         }
         else if ( !home.equals( other.home ) )
+            return false;
+        if ( simpleGame == null )
+        {
+            if ( other.simpleGame != null )
+                return false;
+        }
+        else if ( !simpleGame.equals( other.simpleGame ) )
             return false;
         return true;
     }

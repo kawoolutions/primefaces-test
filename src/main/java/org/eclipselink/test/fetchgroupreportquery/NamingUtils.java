@@ -5,26 +5,26 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Objects;
 
-import org.eclipselink.test.fetchgroupreportquery.entity.Game;
-import org.eclipselink.test.fetchgroupreportquery.entity.Roster;
-import org.eclipselink.test.fetchgroupreportquery.entity.Score;
+import org.eclipselink.test.fetchgroupreportquery.entity.SimpleGame;
+import org.eclipselink.test.fetchgroupreportquery.entity.SimpleRoster;
+import org.eclipselink.test.fetchgroupreportquery.entity.SimpleScore;
 
 public class NamingUtils
 {
-    public static String getGameLabelFor( Game game )
+    public static String getGameLabelFor( SimpleGame game )
     {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern( "yyyy-MM-dd HH:mm" );
         LocalDateTime scheduledTipoff = game.getScheduledTipoff();
         String isoDate = scheduledTipoff.format( formatter );
         
-        Map<Boolean, Score> scores = game.getScores();
+        Map<Boolean, SimpleScore> scores = game.getSimpleScores();
         
-        String label = isoDate + ": " + getTeamLabelForRoster( scores.get( Boolean.TRUE ).getRoster() ) + " vs. " + getTeamLabelForRoster( scores.get( Boolean.FALSE ).getRoster() );
+        String label = isoDate + ": " + getTeamLabelForRoster( scores.get( Boolean.TRUE ).getSimpleRoster() ) + " vs. " + getTeamLabelForRoster( scores.get( Boolean.FALSE ).getSimpleRoster() );
         
         return label;
     }
 
-    public static String getTeamLabelForRoster( Roster roster )
+    public static String getTeamLabelForRoster( SimpleRoster roster )
     {
         if ( roster == null )
         {

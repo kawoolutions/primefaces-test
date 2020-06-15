@@ -3,32 +3,32 @@ package org.eclipselink.test.fetchgroupreportquery.entity;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class ScoreId implements Serializable
+public class SimpleScoreId implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    private Integer game;
+    private Integer simpleGame;
 
     private Boolean home;
 
-    public ScoreId()
+    public SimpleScoreId()
     {
     }
 
-    public ScoreId(Integer gameId, Boolean home)
+    public SimpleScoreId(Integer gameId, Boolean home)
     {
-        this.game = Objects.requireNonNull(gameId);
+        this.simpleGame = Objects.requireNonNull(gameId);
         this.home = Objects.requireNonNull(home);
     }
 
     public Integer getGameId()
     {
-        return game;
+        return simpleGame;
     }
 
     public void setGameId(Integer gameId)
     {
-        this.game = gameId;
+        this.simpleGame = gameId;
     }
 
     public Boolean getHome()
@@ -46,8 +46,8 @@ public class ScoreId implements Serializable
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ( (game == null) ? 0 : game.hashCode() );
         result = prime * result + ( (home == null) ? 0 : home.hashCode() );
+        result = prime * result + ( (simpleGame == null) ? 0 : simpleGame.hashCode() );
         return result;
     }
 
@@ -60,14 +60,7 @@ public class ScoreId implements Serializable
             return false;
         if ( getClass() != obj.getClass() )
             return false;
-        ScoreId other = ( ScoreId ) obj;
-        if ( game == null )
-        {
-            if ( other.game != null )
-                return false;
-        }
-        else if ( !game.equals( other.game ) )
-            return false;
+        SimpleScoreId other = ( SimpleScoreId ) obj;
         if ( home == null )
         {
             if ( other.home != null )
@@ -75,12 +68,19 @@ public class ScoreId implements Serializable
         }
         else if ( !home.equals( other.home ) )
             return false;
+        if ( simpleGame == null )
+        {
+            if ( other.simpleGame != null )
+                return false;
+        }
+        else if ( !simpleGame.equals( other.simpleGame ) )
+            return false;
         return true;
     }
 
     @Override
     public String toString()
     {
-        return "[" + game + ", " + home + "]";
+        return "[" + simpleGame + ", " + home + "]";
     }
 }

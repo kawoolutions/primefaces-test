@@ -14,8 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"Rosters\"")
-public class Roster implements Serializable
+@Table(name = "\"_Simple_Rosters\"")
+public class SimpleRoster implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
@@ -36,29 +36,29 @@ public class Roster implements Serializable
     @Column(name = "jersey_color")
     private String jerseyColor;
 
-    @OneToMany(mappedBy = "roster")
-    private List<Score> scores;
+    @OneToMany(mappedBy = "simpleRoster")
+    private List<SimpleScore> simpleScores;
 
-    public Roster()
+    public SimpleRoster()
     {
     }
 
-    public Roster(Integer id)
+    public SimpleRoster(Integer id)
     {
         this(id, null, null);
     }
 
-    public Roster(Integer id, String clubName, Integer ordinalNbr)
+    public SimpleRoster(Integer id, String clubName, Integer ordinalNbr)
     {
         this(id, clubName, ordinalNbr, null);
     }
 
-    public Roster(String clubName, Integer ordinalNbr, String jerseyColor)
+    public SimpleRoster(String clubName, Integer ordinalNbr, String jerseyColor)
     {
         this(null, clubName, ordinalNbr, jerseyColor);
     }
 
-    public Roster(Integer id, String clubName, Integer ordinalNbr, String jerseyColor)
+    public SimpleRoster(Integer id, String clubName, Integer ordinalNbr, String jerseyColor)
     {
         this.id = Objects.requireNonNull(id);
         this.clubName = clubName;
@@ -106,14 +106,14 @@ public class Roster implements Serializable
         this.jerseyColor = jerseyColor;
     }
 
-    public List<Score> getScores()
+    public List<SimpleScore> getSimpleScores()
     {
-        return scores;
+        return simpleScores;
     }
 
-    public void setScores(List<Score> scores)
+    public void setSimpleScores(List<SimpleScore> simpleScores)
     {
-        this.scores = scores;
+        this.simpleScores = simpleScores;
     }
 
     @Override
@@ -134,7 +134,7 @@ public class Roster implements Serializable
             return false;
         if ( getClass() != obj.getClass() )
             return false;
-        Roster other = ( Roster ) obj;
+        SimpleRoster other = ( SimpleRoster ) obj;
         if ( id == null )
         {
             if ( other.id != null )
