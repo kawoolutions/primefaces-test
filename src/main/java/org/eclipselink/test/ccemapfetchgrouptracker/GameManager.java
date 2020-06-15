@@ -78,7 +78,7 @@ public class GameManager implements Serializable
 //            properties.put( PersistenceUnitProperties.ECLIPSELINK_PERSISTENCE_XML, "src/main/resources/" + PersistenceUnitProperties.ECLIPSELINK_PERSISTENCE_XML_DEFAULT );
             
             // the EMF creation process REQUIRES a persistence.xml to be on the classpath AT ALL TIMES, see JPAInitializer.findPersistenceUnitInfoInArchives(String puName, Map m)
-            // this is why setting the properties here is kinda wasted energy: specify them in the persistence.xml
+            // this is why setting the properties programmatically is kinda wasted energy: specify them in the persistence.xml
             this.emf = Persistence.createEntityManagerFactory( "TestPU", properties );
 //            this.emf = provider.createEntityManagerFactory( "TestPU", properties );
         }
